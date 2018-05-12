@@ -1,0 +1,15 @@
+version: '3'
+services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - phpmyadmin_session:/sessions
+    container_name: phpmyadmin
+    environment:
+     - PMA_ARBITRARY=1
+    restart: always  
+volumes:
+  phpmyadmin_session:
