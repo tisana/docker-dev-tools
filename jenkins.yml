@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  jenkins:
+    image: jenkinsci/blueocean:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data/jenkins:/var/jenkins_home
