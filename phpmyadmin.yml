@@ -10,6 +10,6 @@ services:
     container_name: phpmyadmin
     environment:
      - PMA_ARBITRARY=1
-    restart: always  
+    # restart: always
 volumes:
   phpmyadmin_session:

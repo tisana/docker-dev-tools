@@ -1,0 +1,20 @@
+version: '2'
+services:
+  web:
+    image: metabase/metabase
+    ports:
+      - "3000:3000"
+    # links:
+    #   - db:db
+    # depends_on:
+    #   - db
+    # restart: always
+  # db:
+  #   image: mariadb:10.2.12
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - ./data/mariadb:/var/lib/mysql
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=root
+  #   restart: always

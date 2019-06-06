@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+    mysql:
+        image: mysql:5.7
+        volumes:
+            - ./data/mysql/:/var/lib/mysql/
+        environment:
+            - MYSQL_USER=root
+            - MYSQL_ROOT_PASSWORD=localSQL
+            # - MYSQL_DATABASE=db-name
+        ports:
+            - 3306:3306
+        command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8 --explicit_defaults_for_timestamp
+    
+    adminer:
+      image: adminer:4
+      ports:
+        - 8080:8080
