@@ -1,0 +1,10 @@
+version: '2'
+services:
+    mongodb:
+        image: mongo:4
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./data/mongodb/:/data/db/
+
+Mon, Jun 17, 9:57 AM
