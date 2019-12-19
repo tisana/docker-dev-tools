@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  sonarqube:
+  nexus3:
     image: sonatype/nexus3
     ports:
       - "8081:8081"
