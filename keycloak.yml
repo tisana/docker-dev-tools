@@ -14,7 +14,7 @@ services:
         POSTGRES_USER: keycloak
         POSTGRES_PASSWORD: password
   keycloak:
-      image: jboss/keycloak:7.0.1
+      image: jboss/keycloak:8.0.1
       environment:
         DB_VENDOR: POSTGRES
         DB_ADDR: postgres
