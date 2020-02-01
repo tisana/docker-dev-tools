@@ -2,8 +2,9 @@ version: "3"
 
 services:
   jenkins:
-    image: jenkinsci/blueocean:latest
+    image: jenkins/jenkins:lts-jdk11
     ports:
-      - "8080:8080"
+      - 8080:8080
+      - 50000:50000
     volumes:
       - ./data/jenkins:/var/jenkins_home
