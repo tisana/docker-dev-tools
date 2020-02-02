@@ -1,0 +1,39 @@
+version: '3'
+services:
+  grafana:
+    image: grafana/grafana:6.6.0
+    # volumes:
+    #   - ./grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+      - GF_DATABASE_TYPE=postgres
+      - GF_DATABASE_HOST=db:5432
+      - GF_DATABASE_USER=grafana
+      - GF_DATABASE_PASSWORD=grafana
+      - GF_DATABASE_SSL_MODE=disable
+      - GF_REMOTE_CACHE_TYPE=redis
+      - GF_REMOTE_CACHE_CONNSTR=addr=redis:6379
+    ports:
+      - 3000:3000
+    # On MacOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
+    # grafana/provisioning/datasources/datasource.yml
+    # network_mode: 'host' # to test locally running service
+  db:
+    image: postgres:10
+    environment:
+      - POSTGRES_DB=grafana
+      - POSTGRES_PASSWORD=grafana
+      - POSTGRES_USER=grafana
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - grafana-db-data:/var/lib/postgresql/data/pgdata
+    # ports:
+    #     - 5432:5432
+  redis:
+    image: redis:5
+    # ports:
+    #   - 6379:6379
+volumes:
+  grafana-db-data:
