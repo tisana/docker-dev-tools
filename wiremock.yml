@@ -5,5 +5,5 @@ services:
       - "8088:8080"
     volumes:
       - "./data/wiremock:/home/wiremock"
-    image: rodolpheche/wiremock:2.26.3
+    image: rodolpheche/wiremock:2.27.1
     command: --disable-banner true --container-threads 100 --proxy-all="http://localhost:8088" --record-mappings

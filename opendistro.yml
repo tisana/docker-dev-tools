@@ -46,7 +46,7 @@ services:
     networks:
       - odfe-net
   kibana:
-    image: amazon/opendistro-for-elasticsearch-kibana:1.7.0
+    image: amazon/opendistro-for-elasticsearch-kibana:1.8.0
     container_name: odfe-kibana
     ports:
       - 5601:5601
