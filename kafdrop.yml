@@ -1,0 +1,11 @@
+version: '3'
+services:
+    kafdrop:
+        image: obsidiandynamics/kafdrop:latest
+        ports:
+          - 9000:9000
+        environment:
+          - JVM_OPTS=-Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify
+          - KAFKA_BROKERCONNECT=52.77.110.196:9092
+          - KAFKA_PROPERTIES="$(cat kafka.properties | base64)" \
+          - KAFKA_TRUSTSTORE="$(cat kafka.truststore.jks | base64)" \   # optional
