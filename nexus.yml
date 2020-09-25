@@ -14,4 +14,3 @@ services:
         hard: 65536
     volumes:
       - ./data/nexus-data:/nexus-data
-  
