@@ -1,7 +1,7 @@
 version: '3'
 services:
   grafana:
-    image: grafana/grafana:7.1.5
+    image: grafana/grafana:7.3.7
     volumes:
       - grafana-data:/var/lib/grafana
     #   - ./grafana/provisioning/:/etc/grafana/provisioning/
@@ -33,7 +33,7 @@ services:
     ports:
         - 5432:5432
   redis:
-    image: redis:5
+    image: redis:6
     # ports:
     #   - 6379:6379
 volumes:
