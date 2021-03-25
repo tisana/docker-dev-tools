@@ -14,7 +14,7 @@ services:
         POSTGRES_USER: keycloak
         POSTGRES_PASSWORD: password
   keycloak:
-      image: quay.io/keycloak/keycloak:11.0.2
+      image: quay.io/keycloak/keycloak:12.0.4
       environment:
         DB_VENDOR: POSTGRES
         DB_ADDR: postgres
@@ -28,5 +28,6 @@ services:
         #JDBC_PARAMS: "ssl=true"
       ports:
         - 8080:8080
+        - 9990:9990
       depends_on:
         - postgres
