@@ -1,14 +1,16 @@
 version: '3.1'
 services:
   db:
-    image: postgres:10
+    image: postgres:14
     environment:
       - POSTGRES_USER=metric
       - POSTGRES_PASSWORD=metric
     volumes:
       - postgresql:/var/lib/postgresql
       # This needs explicit mapping due to https://github.com/docker-library/postgres/blob/4e48e3228a30763913ece952c611e5e9b95c8759/Dockerfile.template#L52
-      - postgresql_data:/var/lib/postgresql/data
+      # - postgresql_data:/var/lib/postgresql/data
+    ports:
+        - 5432:5432
   # adminer:
   #   image: adminer
   #   restart: always
@@ -17,4 +19,4 @@ services:
 
 volumes:
   postgresql:
-  postgresql_data:
+  # postgresql_data:
