@@ -1,14 +1,14 @@
 version: '3.1'
 services:
     mongodb:
-        image: mongo:5
+        image: mongo:6
         ports:
             - "27017:27017"
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: localM0ng0
-        volumes:
-            - ./data/mongodb/:/data/db/
+        # volumes:
+        #     - ./data/mongodb/:/data/db/
     mongo-express:
         image: mongo-express:latest
         depends_on: 
@@ -18,4 +18,4 @@ services:
         environment:
             ME_CONFIG_MONGODB_ADMINUSERNAME: root
             ME_CONFIG_MONGODB_ADMINPASSWORD: localM0ng0
-            ME_CONFIG_MONGODB_URL: mongodb://root:localM0ng0@mongodb:27017/
+            ME_CONFIG_MONGODB_URL: "mongodb://root:localM0ng0@mongodb:27017/"
