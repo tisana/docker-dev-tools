@@ -27,7 +27,7 @@ services:
         hard: 65536
 
   db:
-    image: postgres:10
+    image: postgres:16
     networks:
       - sonarnet
     environment:
