@@ -1,7 +1,6 @@
-version: '3'
 services:
     redisinsight:
-        image: redislabs/redisinsight:1.9.0
+        image: docker.io/redislabs/redisinsight:1.9.0
         volumes:
             - redisinsight:/db
         ports:

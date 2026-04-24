@@ -1,8 +1,6 @@
-version: "3"
-
 services:
   jenkins:
-    image: jenkins/jenkins:lts-jdk11
+    image: docker.io/jenkins/jenkins:lts-jdk11
     ports:
       - 8080:8080
       - 50000:50000

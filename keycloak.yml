@@ -1,12 +1,10 @@
-version: '3'
-
 volumes:
   postgres_data:
       driver: local
 
 services:
   postgres:
-      image: postgres:12
+      image: docker.io/library/postgres:12
       volumes:
         - ./data/keycloak_data:/var/lib/postgresql/data
       environment:

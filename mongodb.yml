@@ -1,7 +1,6 @@
-version: '3.1'
 services:
     mongodb:
-        image: mongo:6
+        image: docker.io/library/mongo:6
         ports:
             - "27017:27017"
         environment:
@@ -10,7 +9,7 @@ services:
         # volumes:
         #     - ./data/mongodb/:/data/db/
     mongo-express:
-        image: mongo-express:latest
+        image: docker.io/library/mongo-express:latest
         depends_on: 
             - mongodb
         ports:

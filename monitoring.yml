@@ -1,18 +1,14 @@
-version: '3'
 services:
   prometheus:
-    image: prom/prometheus:v2.21.0
+    image: docker.io/prom/prometheus:v2.21.0
     volumes:
       - ./prometheus/:/etc/prometheus/
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
       - 9090:9090
-    # On MacOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
-    # grafana/provisioning/datasources/datasource.yml
-    network_mode: 'host' # to test locally running service
   grafana:
-    image: grafana/grafana:7.1.5
+    image: docker.io/grafana/grafana:7.1.5
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     environment:
@@ -23,4 +19,4 @@ services:
       - 3000:3000
     # On MacOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
     # grafana/provisioning/datasources/datasource.yml
-    network_mode: 'host' # to test locally running service
+    # network_mode: 'host' # to test locally running service

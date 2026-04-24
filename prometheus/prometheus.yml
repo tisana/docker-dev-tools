@@ -22,5 +22,5 @@ scrape_configs:
     metrics_path: /management/prometheus
     static_configs:
       - targets:
-          # On MacOS, replace localhost by host.docker.internal
-          - localhost:8081
+          # Use the host gateway name when scraping an app running on the host.
+          - host.docker.internal:8081

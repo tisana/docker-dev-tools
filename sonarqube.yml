@@ -1,8 +1,6 @@
-version: "3"
-
 services:
   sonarqube:
-    image: sonarqube:latest
+    image: docker.io/library/sonarqube:latest
     ports:
       - "9001:9000"
       - "9092:9092"
@@ -27,7 +25,7 @@ services:
         hard: 65536
 
   db:
-    image: postgres:16
+    image: docker.io/library/postgres:18
     networks:
       - sonarnet
     environment:
@@ -40,7 +38,6 @@ services:
 
 networks:
   sonarnet:
-    driver: bridge
 
 volumes:
   sonarqube_conf:
