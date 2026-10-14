@@ -4,6 +4,6 @@ services:
         volumes:
             - redisinsight:/db
         ports:
-            - 8001:8001
+            - "${DEV_BIND_ADDRESS:-127.0.0.1}:${REDISINSIGHT_PORT:-8001}:8001"
 volumes:
     redisinsight:

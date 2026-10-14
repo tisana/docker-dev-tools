@@ -19,8 +19,8 @@ services:
     volumes:
       - opensearch-data1:/usr/share/opensearch/data
     ports:
-      - 9200:9200
-      - 9600:9600  # required for Performance Analyzer
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${OPENSEARCH_PORT:-9200}:9200"
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${OPENSEARCH_ANALYZER_PORT:-9600}:9600"  # required for Performance Analyzer
     networks:
       - opensearch-net
   opensearch-node2:
@@ -47,7 +47,7 @@ services:
   opensearch-dashboards:
     image: docker.io/opensearchproject/opensearch-dashboards:3.6.0
     ports:
-      - 5601:5601
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${OPENSEARCH_DASHBOARDS_PORT:-5601}:5601"
     expose:
       - '5601'
     environment:

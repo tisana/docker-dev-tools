@@ -7,11 +7,16 @@ services:
             # - MYSQL_USER=root
             - MYSQL_ROOT_PASSWORD=localSQL
             # - MYSQL_DATABASE=db-name
+        healthcheck:
+            test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 --silent"]
+            interval: 5s
+            timeout: 5s
+            retries: 30
         ports:
-            - 3306:3306
+            - "${DEV_BIND_ADDRESS:-127.0.0.1}:${MYSQL_PORT:-3306}:3306"
         command: mysqld --lower_case_table_names=1 --ssl --character_set_server=utf8 --explicit_defaults_for_timestamp
-    
+
     adminer:
       image: docker.io/library/adminer:4
       ports:
-        - 8080:8080
+        - "${DEV_BIND_ADDRESS:-127.0.0.1}:${MYSQL_ADMINER_PORT:-8080}:8080"

@@ -7,6 +7,11 @@ services:
       image: docker.io/library/postgres:12
       volumes:
         - ./data/keycloak_data:/var/lib/postgresql/data
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+        interval: 5s
+        timeout: 5s
+        retries: 30
       environment:
         POSTGRES_DB: keycloak
         POSTGRES_USER: keycloak
@@ -25,7 +30,8 @@ services:
         # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
         #JDBC_PARAMS: "ssl=true"
       ports:
-        - 8080:8080
-        - 9990:9990
+        - "${DEV_BIND_ADDRESS:-127.0.0.1}:${KEYCLOAK_PORT:-8080}:8080"
+        - "${DEV_BIND_ADDRESS:-127.0.0.1}:${KEYCLOAK_MANAGEMENT_PORT:-9990}:9990"
       depends_on:
-        - postgres
+        postgres:
+          condition: service_healthy

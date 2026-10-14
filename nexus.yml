@@ -2,7 +2,7 @@ services:
   nexus3:
     image: docker.io/sonatype/nexus3
     ports:
-      - "8081:8081"
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${NEXUS_PORT:-8081}:8081"
     ulimits:
       memlock:
         soft: -1

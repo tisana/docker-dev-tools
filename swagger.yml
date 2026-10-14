@@ -2,7 +2,7 @@ services:
   swagger-ui:
     image: docker.io/swaggerapi/swagger-ui
     ports:
-      - "8001:8080"
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${SWAGGER_PORT:-8001}:8080"
     volumes:
       - ./swagger:/usr/share/nginx/html/swagger
     environment:

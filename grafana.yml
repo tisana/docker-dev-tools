@@ -1,6 +1,11 @@
 services:
   grafana:
     image: docker.io/grafana/grafana:9.1.7
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
       - grafana-data:/var/lib/grafana
     #   - ./grafana/provisioning/:/etc/grafana/provisioning/
@@ -16,12 +21,17 @@ services:
       - GF_REMOTE_CACHE_TYPE=redis
       - GF_REMOTE_CACHE_CONNSTR=addr=redis:6379
     ports:
-      - 3000:3000
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${GRAFANA_PORT:-3000}:3000"
     # On MacOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
     # grafana/provisioning/datasources/datasource.yml
     # network_mode: 'host' # to test locally running service
   db:
     image: docker.io/library/postgres:14
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
     environment:
       - POSTGRES_DB=grafana
       - POSTGRES_PASSWORD=grafana
@@ -30,9 +40,14 @@ services:
     volumes:
       - grafana-db-data:/var/lib/postgresql/data/pgdata
     ports:
-        - 5432:5432
+        - "${DEV_BIND_ADDRESS:-127.0.0.1}:${GRAFANA_POSTGRES_PORT:-5432}:5432"
   redis:
     image: docker.io/library/redis:7
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 30
     # ports:
     #   - 6379:6379
 volumes:
