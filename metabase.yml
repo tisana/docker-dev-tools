@@ -2,7 +2,11 @@ services:
   web:
     image: docker.io/metabase/metabase
     ports:
-      - "3000:3000"
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${METABASE_PORT:-3000}:3000"
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+    volumes:
+      - metabase-data:/metabase-data
     # depends_on:
     #   - db
     # restart: always
@@ -15,3 +19,6 @@ services:
   #   environment:
   #     - MYSQL_ROOT_PASSWORD=root
   #   restart: always
+
+volumes:
+  metabase-data:
