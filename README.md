@@ -159,3 +159,27 @@ For recovery, keep the pre-change configuration and exact image digest with the
 backup, restore to a dedicated project and copied storage, verify recognizable
 records/settings, then migrate the originals. Never restore an older image over
 an upgraded database directory. Keep dumps, plugins and runtime data out of Git.
+
+## KRaft development broker
+
+Kafka and Schema Registry now use matching Confluent 8.3.2 images. ZooKeeper and
+its port are removed. Generate a cluster ID once and put it in `.env`:
+
+```powershell
+docker run --rm --entrypoint kafka-storage docker.io/confluentinc/cp-kafka:8.3.2 random-uuid
+# KAFKA_CLUSTER_ID=<generated value>
+$env:KAFKA_BROKERCONNECT = 'kafka:29092'
+docker compose -p dev-kafka -f kafka.yml -f kafdrop.yml up -d
+```
+
+Retain the cluster ID with `kafka-kraft-data`; changing it does not migrate data.
+The broker/controller is a single-node development configuration. Schemas live
+in Kafka's `_schemas` topic, so broker persistence also protects Schema Registry.
+For retained 5.5 data, keep its old image/configuration and storage together.
+Use the documented Confluent intermediate upgrade/KRaft bridge or export and
+replay at the application level into a fresh cluster. Do not attach 5.5 files to
+8.x. Preserve keys, timestamps, headers, schema versions and references in your
+export. Re-register referenced schemas first; schema IDs can change and encoded
+payloads may require re-encoding. Consumer offsets are not preserved by ordinary
+export/replay. Validate dependent clients before switching endpoints. Rollback
+restores the old cluster and its matching backup, not an 8.x log downgrade.

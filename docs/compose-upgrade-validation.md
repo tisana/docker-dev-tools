@@ -117,3 +117,27 @@ Phase 1 image digests (linux/amd64; mutable tags are dated observations):
 | confluentinc/cp-schema-registry:5.5.0 | sha256:b38661525957847a19172b52695615b4a2ce45a4ef31a9d4855c9a0994624add |
 | obsidiandynamics/kafdrop:latest | sha256:4486f52da3b037d62665f5effca34ec096675183742f4c596237b368501546e5 |
 | phpmyadmin/phpmyadmin:latest | sha256:42a200db07b4e70fbf32c594ad4521cf16399b8e54bbb5adceae98e7566dfbeb |
+
+## Task 2.1: KRaft modernization (2026-10-15)
+
+PASS on Docker linux/amd64: Confluent Kafka/Schema Registry 8.3.2. Registry
+manifests also advertise linux/arm64; that platform was not runtime-tested.
+Broker digest `sha256:5e8f3ab5b4977c9a8fd6137d26af2caad878aca316f24c55f08206217e3cec48`;
+Schema Registry digest `sha256:482d3048b3f6029bae5794b5c3b5e2eea8d61ca064dacd32241315e818fd8d7c`.
+
+Commands: `docker compose -p upgrade-review-kraft -f kafka.yml -f kafdrop.yml up
+-d --wait --wait-timeout 180`, with `KAFKA_CLUSTER_ID` retained, Kafka port 19092,
+Schema Registry 18082, Kafdrop 19000 and internal bootstrap `kafka:29092`.
+`kafka-topics`, console producer/consumer and a Windows JDK21 Kafka client proved
+internal and advertised host connectivity. `phase2-message` and
+`host-client-message` survived `down`/`up`. HTTP schema registration persisted
+schema ID 1 plus `fixture-base` / `fixture-wrapper` and their versioned reference.
+Kafdrop's topic page still displayed the retained topic after recreation.
+
+The modern image lacks `tar`; the initial host-test JAR export failed. Copying
+individual JARs with `docker cp -L` worked without modifying the image. The host
+client emitted an optional missing SLF4J binding warning but produced/consumed
+successfully. No retained original 5.5 data existed; this was a fresh cluster
+with fixture records, not an assertion of an in-place 5.5 migration.
+
+Reference: [Confluent Docker configuration and KRaft](https://docs.confluent.io/platform/current/installation/docker/config-reference.html).
