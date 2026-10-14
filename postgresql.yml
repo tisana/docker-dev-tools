@@ -5,11 +5,14 @@ services:
       - POSTGRES_USER=metric
       - POSTGRES_PASSWORD=metric
     volumes:
-      - postgresql:/var/lib/postgresql
-      # This needs explicit mapping due to https://github.com/docker-library/postgres/blob/4e48e3228a30763913ece952c611e5e9b95c8759/Dockerfile.template#L52
-      # - postgresql_data:/var/lib/postgresql/data
+      - postgresql:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_USER"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
     ports:
-        - 5432:5432
+        - "${DEV_BIND_ADDRESS:-127.0.0.1}:${POSTGRES_PORT:-5432}:5432"
   # adminer:
   #   image: adminer
   #   restart: always
