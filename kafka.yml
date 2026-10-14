@@ -6,31 +6,40 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_SYNC_LIMIT: 2
     ports:
-      - 2181:2181
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${ZOOKEEPER_PORT:-2181}:2181"
   kafka:
     image: docker.io/confluentinc/cp-kafka:5.5.0
+    depends_on:
+      - zookeeper
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server localhost:29092 >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
     environment:
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092
       # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_BROKER_ID: 1
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://${KAFKA_ADVERTISED_HOST:-localhost}:${KAFKA_PORT:-9092}
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     ports:
-      - 9092:9092
-    
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${KAFKA_PORT:-9092}:9092"
+
   schemaregistry:
     image: docker.io/confluentinc/cp-schema-registry:5.5.0
     depends_on:
-      - zookeeper
+      kafka:
+        condition: service_healthy
     environment:
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zookeeper:2181"
       SCHEMA_REGISTRY_HOST_NAME: schemaregistry
       SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8081"
     ports:
-      - 8081:8081
-      
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${SCHEMA_REGISTRY_PORT:-8081}:8081"
+
   # restproxy:
   #   image: confluentinc/cp-kafka-rest:5.5.0
   #   depends_on:
