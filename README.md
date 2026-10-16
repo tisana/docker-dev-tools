@@ -214,3 +214,29 @@ records and attachments, then switch clients. Unported custom addons block that
 installation's upgrade. The fixture used the installed base addon; no original
 custom addons or database were present. Odoo 20 attachment clients must use the
 new `raw` binary contract instead of the removed `datas` field.
+
+## Database helpers and Redis Insight
+
+MongoDB now uses 8.0.34 and a separate `mongodb-v8-data` volume. For retained
+6.0 files, back up while stopped, work on a copy, upgrade to 7.0, set FCV 7.0
+with confirmation, stop cleanly, then upgrade to 8.0 and set FCV 8.0. Compare
+records and indexes at every step. Preserve the pre-upgrade volume for rollback;
+never run 8.0 directly on 6.0 files or downgrade upgraded files in place.
+
+Both MySQL entry points use 8.4.11 LTS and Adminer 6.1.2. `mysql.yml` keeps its
+case-insensitive initialization policy (`lower_case_table_names=1`) and uses
+`utf8mb4` in the new `./data/mysql84` bind directory. `mysql8.yml` uses the
+`mysql8-data` named volume and the image's normal case policy. This setting
+cannot be changed on an initialized database by editing the startup flag.
+For 5.7 data, rehearse 5.7 -> 8.0 -> 8.4 using the supported upgrade checks or
+logical user-database exports/restores. Export routines/events/triggers too;
+review users/grants and authentication separately. Current clients must support
+8.4 authentication. The obsolete `--ssl` flag was removed; no TLS host mapping
+is implied by that flag.
+
+DynamoDB Local 3.3.1 uses `dynamodb-v3-data`; copy stopped SQLite files to the new
+volume only after backup and test on that copy. Keep the access-key ID/region
+consistent. Redis Insight 3.8.0 uses `docker.io/redis/redisinsight`, `/data` in
+`redisinsight-v3`, and host port 8001 -> container 5540. It requires a Redis server.
+Export old 1.x connections before retiring its `/db` volume; the new helper uses
+fresh storage rather than claiming automatic metadata conversion.

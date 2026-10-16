@@ -1,13 +1,13 @@
 services:
     mongodb:
-        image: docker.io/library/mongo:6
+        image: docker.io/library/mongo:8.0.34
         ports:
             - "${DEV_BIND_ADDRESS:-127.0.0.1}:${MONGODB_PORT:-27017}:27017"
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: localM0ng0
         volumes:
-            - mongodb-data:/data/db
+            - mongodb-v8-data:/data/db
         healthcheck:
             test: ["CMD", "mongosh", "--quiet", "--eval", "quit(db.adminCommand('ping').ok ? 0 : 1)"]
             interval: 5s
@@ -28,4 +28,4 @@ services:
             ME_CONFIG_MONGODB_URL: "mongodb://root:localM0ng0@mongodb:27017/"
 
 volumes:
-    mongodb-data:
+    mongodb-v8-data:

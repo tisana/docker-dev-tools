@@ -169,3 +169,46 @@ separate copied migration rehearsals as documented in README.
 References: [Keycloak containers](https://www.keycloak.org/server/containers),
 [Keycloak database support](https://www.keycloak.org/server/db),
 [Odoo official image](https://hub.docker.com/_/odoo).
+
+## Task 2.3: database helpers / Redis Insight
+
+PASS (Docker linux/amd64, 2026-10-14 through 2026-10-16):
+
+- MongoDB: copied stopped Mongo6 fixture to separate v8 volume, booted 7.0 and
+  set FCV7, then booted 8.0.34 and set FCV8. Authenticated record and unique
+  `note_1` index survived migration/recreation. A separate restored pre-upgrade
+  copy booted under Mongo6 and returned the same record.
+- MySQL: 5.7.44 logical export -> 8.0.46 restore/export -> 8.4.11 restore.
+  `review.MixedCase` record `phase2`, primary/unique indexes, utf8mb4 and case
+  policy survived. `mysql8.yml` also retained its Phase1 fixture. Both Adminer
+  6.1.2 UIs authenticated and executed SELECT queries through the browser.
+  The 5.7 SQL backup restored successfully into a separate 5.7 instance.
+- DynamoDB: copied 1.13.5 SQLite database into v3 storage; 3.3.1 retained the
+  record, supported PartiQL SELECT, and retained a new record after recreation.
+  Readiness polling replaced an insufficient fixed 5s delay in the test.
+  A separate stopped-file restoration worked under 1.13.5.
+- Redis Insight: browser opened the temporary Redis8.2.10 fixture, displayed
+  `upgrade-fixture=phase2-value`, and retained the same connection ID after
+  full stack recreation. The temporary Redis server was intentionally ephemeral.
+
+Old Mongo6/Mongo7 and MySQL5.7/MySQL8.0 were migration/recovery fixtures only;
+none remains a default helper. Database rollback results are in the ignored
+`.superpowers/logs/database-rollback.log`; no dumps or fixture data are tracked.
+
+| Selected image | Digest |
+|---|---|
+| mongo:8.0.34 | sha256:6657bf2413fefc5be649390318f5b4cd7328e982722f8ce2ac6dfa6f0a42cb03 |
+| mysql:8.4.11 | sha256:24989179f58856db763f418010c1169fecc944e3ec1ea7e921572d83eb070f70 |
+| adminer:6.1.2 | sha256:c4e439badea7c611be25d4b1e83f82333b5f10cc2fe8c899725c665541e33ff1 |
+| amazon/dynamodb-local:3.3.1 | sha256:ff89bd48ff32cd8d9be5fee8873b65b8854dc408f1afe881be6eb00247bc0dab |
+| redis/redisinsight:3.8.0 | sha256:b5e19ee240abef6edb435871b90ff8a210995422e8e018ab61c0339d318a1f84 |
+
+Intermediate digests: Mongo7 `sha256:9650758f83af117fc96699f030a44f9300bed839734e67012f56df05b2fd6290`,
+MySQL5.7 `sha256:4bc6bc963e6d8443453676cae56536f4b8156d78bae03c0145cbe47c2aad73bb`,
+MySQL8.0 `sha256:7dcddc01f13bab2f15cde676d44d01f61fc9f99fe7785e86196dfc07d358ae2b`.
+
+References: [Mongo7 upgrade](https://www.mongodb.com/docs/manual/release-notes/7.0-upgrade-standalone/),
+[Mongo8 upgrade](https://www.mongodb.com/docs/manual/release-notes/8.0-upgrade-standalone/),
+[MySQL paths](https://dev.mysql.com/doc/refman/8.4/en/upgrade-paths.html),
+[DynamoDB history](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocalHistory.html),
+[Redis Insight Docker](https://redis.io/docs/latest/operate/redisinsight/install/install-on-docker/).
