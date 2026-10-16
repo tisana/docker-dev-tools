@@ -4,7 +4,7 @@ services:
     ports:
       - "${DEV_BIND_ADDRESS:-127.0.0.1}:${KAFDROP_PORT:-9000}:9000"
     environment:
-      JVM_OPTS: -Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify
+      JVM_OPTS: -Xms64M -Xmx256M -Xss512K
       KAFKA_BROKERCONNECT: ${KAFKA_BROKERCONNECT:?Set a broker reachable from this container}
       # Optional security values can be provided from the host environment.
       # KAFKA_PROPERTIES: ${KAFKA_PROPERTIES:-}

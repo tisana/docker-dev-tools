@@ -4,6 +4,6 @@ services:
     ports:
       - "${DEV_BIND_ADDRESS:-127.0.0.1}:${SWAGGER_PORT:-8001}:8080"
     volumes:
-      - ./swagger:/usr/share/nginx/html/swagger
+      - ./swagger:/usr/share/nginx/html/swagger:ro
     environment:
       API_URL: swagger/sample.yml

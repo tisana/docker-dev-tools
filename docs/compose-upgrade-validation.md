@@ -1,6 +1,7 @@
 # Compose upgrade validation
 
-Execution date: 2026-10-14 (Asia/Bangkok). Branch: `chore/compose-upgrade`.
+Execution dates: 2026-10-14 through 2026-10-16 (Asia/Bangkok).
+Branch: `chore/compose-upgrade`.
 
 ## Environment and safety inventory
 
@@ -255,6 +256,53 @@ Redis8.2.10 `sha256:47670742d7924adbcdb404d1288b6327815b23141969c0939b8e5d61f78c
 References: [Grafana13 upgrade](https://grafana.com/docs/grafana/latest/upgrade-guide/upgrade-v13.0/),
 [Prometheus3 migration](https://prometheus.io/docs/prometheus/latest/migration/),
 [Redis releases](https://github.com/redis/redis/releases).
+
+## Task 3.2: current floating UI helpers
+
+Pulled immediately before checks on2026-10-16, linux/amd64:
+
+| Image | Resolved application | SHA256 |
+| --- | --- | --- |
+| obsidiandynamics/kafdrop:latest | 4.3.0, Java25.0.4 | `4486f52da3b037d62665f5effca34ec096675183742f4c596237b368501546e5` |
+| mongo-express:latest | 1.0.2, Node18.20.3 | `1b23d7976f0210dbec74045c209e52fbb26d29b2e873d6c6fa3d3f0ae32c2a64` |
+| phpmyadmin/phpmyadmin:latest | 5.2.3, PHP8.3.26 | `42a200db07b4e70fbf32c594ad4521cf16399b8e54bbb5adceae98e7566dfbeb` |
+| swaggerapi/swagger-ui:latest | 5.33.3 (bundle PACKAGE_VERSION) | `b26661cd754a7efbb2e1aab419ffb5603320d8f35f0bd086d1d7506e23934d23` |
+
+Kafdrop: replaced the48MB heap/180KB stack and deprecated `-noverify` with
+64MB initial/256MB maximum heap and512KB stack. Current Java25 starts cleanly
+with those options. Combined-stack browsing was tested in Phase2; the final
+standalone project uses `host.docker.internal:19092`, with the broker advertising
+that hostname and binding explicitly to0.0.0.0. It sees the retained topic and
+messages through the host route. Separate projects never rely on shared DNS.
+
+mongo-express PASS: the actual image's `config.default.js` reads
+`ME_CONFIG_BASICAUTH` (the upstream main branch documents the newer `_ENABLED`
+name). Both Mongo URL/admin auth and explicit UI username/password work.
+Browser created/read/updated/deleted a temporary document. Mongo retained the
+Phase1 record/index after recreation, while the UI-deleted document remained
+absent. Wrong web password returned401; wrong database credentials failed auth.
+`MONGO_EXPRESS_PASSWORD` is required. Retain floating policy and recheck the
+authentication variable against the next pulled digest.
+
+phpMyAdmin PASS: HTTP80 only, `PMA_ARBITRARY=1`, authenticated to MySQL8.4.11
+on an explicitly shared isolated network, executed a SELECT returning the
+fixture value and server version. `/sessions` is writable and retained its
+session file after recreation. The image regenerates its cookie encryption
+secret, so recreation required login again; persistent session files do not
+guarantee persistent authentication. No HTTPS listener is implied.
+
+Swagger PASS: browser requested the local `/swagger/sample.yml` (HTTP200),
+rendered that Swagger2 document and reported `swagger/sample.yml` as its
+configured URL. The repository sample itself is titled Swagger Petstore; the
+network request confirms this was the local file, not the remote default.
+`API_URL` is handled by the image's configurator. The specification bind is
+read-only and the running container reports readwrite=false for that mount.
+
+References: [Kafdrop](https://github.com/obsidiandynamics/kafdrop),
+[mongo-express image](https://github.com/docker-library/docs/blob/master/mongo-express/README.md),
+[mongo-express configuration](https://github.com/mongo-express/mongo-express),
+[phpMyAdmin image/session contract](https://github.com/phpmyadmin/docker),
+[Swagger installation](https://github.com/swagger-api/swagger-ui/blob/main/docs/usage/installation.md).
 
 ## Task 3.1: current floating applications
 

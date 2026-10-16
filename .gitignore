@@ -10,3 +10,4 @@
 .superpowers/
 backups/
 .runtime/
+.playwright-mcp/
