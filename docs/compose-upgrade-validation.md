@@ -141,3 +141,31 @@ successfully. No retained original 5.5 data existed; this was a fresh cluster
 with fixture records, not an assertion of an in-place 5.5 migration.
 
 Reference: [Confluent Docker configuration and KRaft](https://docs.confluent.io/platform/current/installation/docker/config-reference.html).
+
+## Task 2.2: Keycloak / Odoo (verified through 2026-10-16)
+
+Keycloak 26.8.1 (digest `sha256:79c623a22abacf3fe6c00a5fb30f5b7843d717b234033b80995891c06116d244`)
+and PostgreSQL 17.11 (`sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3`):
+imported `upgrade-fixture` realm/client/user; password token issuance and discovery
+issuer passed before/after recreation and on resume. PostgreSQL contained the
+realm record. Project `upgrade-review-keycloak`, port 18084, copied bind path
+`.runtime/keycloak_pg17`. First bind initialization exceeded 180s; readiness now
+allows a 120s start period plus bounded retries. Subsequent starts passed.
+
+Odoo 20.0-20260926 (`sha256:cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533`):
+database creation, login, installed base addon, business record and actual 17-byte
+attachment survived recreation. Project `upgrade-review-odoo`, port 18069,
+separate config/addon directories and version-specific named volumes. Runtime
+showed default HTTP interface was loopback; explicit `--http-interface=0.0.0.0`
+fixed published access. The initial attachment test used removed `datas`; inspecting
+the selected image's ORM showed `raw.content` is the correct encoded read value.
+The corrected full test passed (`.superpowers/logs/odoo-retained-final.log`).
+
+No original PostgreSQL12/Keycloak12/Odoo13 state or custom addons existed locally.
+These results establish modern helper functionality/persistence, not compatibility
+of arbitrary legacy realms, Odoo metadata or addons. Those installations require
+separate copied migration rehearsals as documented in README.
+
+References: [Keycloak containers](https://www.keycloak.org/server/containers),
+[Keycloak database support](https://www.keycloak.org/server/db),
+[Odoo official image](https://hub.docker.com/_/odoo).

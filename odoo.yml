@@ -1,17 +1,18 @@
 services:
   web:
-    image: docker.io/library/odoo:13.0
+    image: docker.io/library/odoo:20.0-20260926
+    command: ['odoo', '--http-interface=0.0.0.0']
     depends_on:
       db:
         condition: service_healthy
     ports:
       - "${DEV_BIND_ADDRESS:-127.0.0.1}:${ODOO_PORT:-8069}:8069"
     volumes:
-      - odoo-web-data:/var/lib/odoo
-      - ./data/odoo/config:/etc/odoo
-      - ./data/odoo/addons:/mnt/extra-addons
+      - odoo-web-v20-data:/var/lib/odoo
+      - ${ODOO_CONFIG_DIR:-./data/odoo/config}:/etc/odoo
+      - ${ODOO_ADDONS_DIR:-./data/odoo/addons}:/mnt/extra-addons
   db:
-    image: docker.io/library/postgres:12
+    image: docker.io/library/postgres:17.11
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
@@ -23,7 +24,7 @@ services:
       - POSTGRES_USER=odoo
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - odoo-db-data:/var/lib/postgresql/data/pgdata
+      - odoo-db-v17-data:/var/lib/postgresql/data/pgdata
 volumes:
-  odoo-web-data:
-  odoo-db-data:
+  odoo-web-v20-data:
+  odoo-db-v17-data:

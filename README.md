@@ -183,3 +183,34 @@ export. Re-register referenced schemas first; schema IDs can change and encoded
 payloads may require re-encoding. Consumer offsets are not preserved by ordinary
 export/replay. Validate dependent clients before switching endpoints. Rollback
 restores the old cluster and its matching backup, not an 8.x log downgrade.
+
+## Keycloak and Odoo upgrades
+
+Keycloak 26.8.1 uses PostgreSQL 17.11 and `start-dev`. Bootstrap credentials are
+`KEYCLOAK_ADMIN_USER` and required `KEYCLOAK_ADMIN_PASSWORD`. Its default URLs are
+`/realms/<realm>` and `/admin`; legacy clients using `/auth` need their issuer,
+redirect and discovery configuration updated. The obsolete management port is
+removed. New PostgreSQL data defaults to `./data/keycloak_pg17`, leaving the old
+`./data/keycloak_data` PostgreSQL 12 installation untouched. On Windows bind
+mounts, initial database initialization may take several minutes; use
+`--wait --wait-timeout 360` and inspect logs if readiness fails.
+
+For a populated Keycloak 12 installation, retain its exact image, database dump
+and realm exports; rehearse the documented intermediate Keycloak/schema upgrades
+and a PostgreSQL logical restore on isolated copies. A realm import is not a
+substitute for preserving all server metadata. Do not point PostgreSQL 17 at the
+old PostgreSQL 12 directory. The tests here cover a fresh modern installation
+with an imported realm, client and user; no populated legacy installation was
+available to migrate.
+
+Odoo uses 20.0-20260926 with PostgreSQL 17.11, explicit container HTTP binding,
+`odoo-web-v20-data` for its filestore and `odoo-db-v17-data` for PostgreSQL. Old
+`odoo-web-data` / `odoo-db-data` volumes remain untouched. Configuration and addons
+still use bind mounts; `ODOO_CONFIG_DIR` and `ODOO_ADDONS_DIR` allow copied paths.
+An existing Odoo 13 database requires an application migration and compatible
+addons; a PostgreSQL dump alone cannot upgrade its schema. Migrate and restore
+the database, filestore, configuration and addons together, verify business
+records and attachments, then switch clients. Unported custom addons block that
+installation's upgrade. The fixture used the installed base addon; no original
+custom addons or database were present. Odoo 20 attachment clients must use the
+new `raw` binary contract instead of the removed `datas` field.
