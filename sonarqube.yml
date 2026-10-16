@@ -3,7 +3,6 @@ services:
     image: docker.io/library/sonarqube:latest
     ports:
       - "${DEV_BIND_ADDRESS:-127.0.0.1}:${SONARQUBE_PORT:-9001}:9000"
-      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${SONARQUBE_LEGACY_PORT:-9092}:9092"
     networks:
       - sonarnet
     environment:
@@ -14,11 +13,9 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - sonarqube_conf:/opt/sonarqube/conf
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_extensions:/opt/sonarqube/extensions
       - sonarqube_logs:/opt/sonarqube/logs
-      - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
     ulimits:
       memlock:
         soft: -1
@@ -47,9 +44,7 @@ networks:
   sonarnet:
 
 volumes:
-  sonarqube_conf:
   sonarqube_data:
   sonarqube_extensions:
   sonarqube_logs:
-  sonarqube_bundled-plugins:
   sonarqube_postgresql:

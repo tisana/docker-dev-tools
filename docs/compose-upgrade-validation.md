@@ -256,6 +256,56 @@ References: [Grafana13 upgrade](https://grafana.com/docs/grafana/latest/upgrade-
 [Prometheus3 migration](https://prometheus.io/docs/prometheus/latest/migration/),
 [Redis releases](https://github.com/redis/redis/releases).
 
+## Task 3.1: current floating applications
+
+Pulled immediately before checks on2026-10-16, linux/amd64:
+
+| Image | Resolved application | SHA256 |
+| --- | --- | --- |
+| metabase/metabase:latest | v0.64.2.7 (2026-10-15) | `f69044cd03f1a9968cdd427f23e3f50b893666f0092e6cac1ef7e2e30e100a96` |
+| sonatype/nexus3:latest | 3.97.0-13 Community Edition, Java21.0.12 | `772ad5badde07e15f2c25c750437fcbb01ebdb84a8c43a3ed38eda60bb6448f1` |
+| sonarqube:latest | Community Build26.10.0.133078 | `2e378f7852b67d43507d3d383ee8fb5a522b8b0f920be9803f74f72952fce8f1` |
+| postgres:18 | 18.4 (Sonar dependency) | `74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336` |
+
+Metabase PASS: copied the stopped Phase1 H2 volume read-only into a new project,
+then started the newly pulled digest. Question40 and dashboard2 retained their
+names and loaded before/after recreation. `MB_DB_FILE` remains valid; the actual
+image stores its H2 file beneath `/metabase-data/metabase.db/`. Preserve the
+whole mounted directory while stopped. No external database migration was made.
+
+Nexus PASS: UID200 owns `/nexus-data`; the current image uses Java21 and H2
+`db/nexus.mv.db`. Its startup launcher sizes heap/direct memory; no custom JVM
+flags were needed. Removed an irrelevant Elasticsearch comment. The user
+explicitly reviewed/accepted the CE EULA for this isolated instance before the
+artifact test. Created a raw hosted repository, uploaded/downloaded a fixture,
+recreated, and downloaded identical content. No original Nexus database existed;
+this does not verify an OrientDB migration. Older installations must follow the
+vendor's H2/Java intermediate upgrade sequence before latest; retain a complete
+stopped `/nexus-data` backup and its matching image for recovery.
+
+Sonar PASS: copied stopped Phase1 PostgreSQL and extensions into a new project.
+PostgreSQL18 is supported starting with Community Build26.8. Removed unused9092
+and default `conf`/`lib/bundled-plugins` mounts; retained old volumes untouched.
+Only data/extensions/logs are default application mounts, so bundled files come
+from the current image. The real scanner analyzed one Python file; CE task
+succeeded, PostgreSQL `snapshots` contained results, and two analyses remained
+after recreation. Server logs showed no plugin/startup failure; image emits a
+locale COMPAT notice. Scanner8.1.0.6389 digest
+`a3f4215076706c95a17a68c19322ee916e40a3acd081a8c1a1e839e0194afa57` was a test
+dependency only. The scanner now writes to `/tmp/.scannerwork` by default;
+the test set `SCANNER_WORKDIR_PATH` to retain its task report. No scanner token
+is committed. Before changing an existing installation, export local conf and
+inventory extensions, apply supported environment settings and compatible
+plugins; never discard the old configuration volumes as part of `down`.
+
+References checked2026-10-16:
+[Metabase Docker](https://www.metabase.com/docs/latest/installation-and-operation/running-metabase-on-docker),
+[Nexus image](https://github.com/sonatype/docker-nexus3),
+[Nexus onboarding/migration](https://help.sonatype.com/en/ce-onboarding.html),
+[Nexus EULA API](https://help.sonatype.com/en/eula-rest-api.html),
+[Sonar database support](https://docs.sonarsource.com/sonarqube-community-build/server-installation/installing-the-database),
+[Sonar Docker mounts/settings](https://docs.sonarsource.com/sonarqube-community-build/server-installation/from-docker-image/set-up-and-start-container).
+
 ## Task 2.6: search stacks / PostgreSQL patch
 
 PASS on 2026-10-16, Docker linux/amd64. Elasticsearch9.4.1 fixture data
