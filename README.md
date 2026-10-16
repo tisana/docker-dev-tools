@@ -279,3 +279,5 @@ WireMock uses official 3.13.2 and retains `/home/wiremock` mappings/files. Back 
 extensions and recordings before upgrading, and validate custom extensions
 against3.x. A fresh proxy request, recording and offline replay were tested with
 the required upstream setting. No original custom extensions were present.
+
+Search helpers now pair Elasticsearch/Kibana9.5.5 and OpenSearch/Dashboards3.9.0. PostgreSQL stays on16.15. For older populated search installations, inspect the actual data version and use supported intermediate upgrades or snapshot/reindex migration on copies. OpenSearch requires a strong OPENSEARCH_INITIAL_ADMIN_PASSWORD, sufficient Docker VM memory, and vm.max_map_count >=262144. Demo TLS is self-signed; Dashboards login is admin with the supplied password. See the dated validation record for snapshot recovery and recreation evidence.

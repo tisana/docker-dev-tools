@@ -256,6 +256,44 @@ References: [Grafana13 upgrade](https://grafana.com/docs/grafana/latest/upgrade-
 [Prometheus3 migration](https://prometheus.io/docs/prometheus/latest/migration/),
 [Redis releases](https://github.com/redis/redis/releases).
 
+## Task 2.6: search stacks / PostgreSQL patch
+
+PASS on 2026-10-16, Docker linux/amd64. Elasticsearch9.4.1 fixture data
+was cold-copied read-only into isolated source storage, then backed up using
+the snapshot API. A fresh9.5.5 cluster restored that snapshot, found the
+recognizable document by query, connected Kibana9.5.5 (`available`), and
+retained the document through recreation. The source and snapshot remain
+available for recovery; no original data volume was upgraded in place.
+This does not establish a direct Elasticsearch7 ->9 migration.
+
+OpenSearch3.9.0 formed a two-node green cluster, accepted authenticated index
+writes/search, connected matching Dashboards3.9.0, and retained the document
+through recreation. Browser admin login reached `/app/home`. The status API
+also requires authentication. No populated legacy OpenSearch installation
+existed; an OpenSearch2 data migration remains installation-specific.
+`vm.max_map_count` was1048576 on the tested Docker Linux VM; no host settings
+were changed. Allocate sufficient VM memory for both nodes and Dashboards.
+Demo HTTPS uses a self-signed certificate; use the required strong initial
+admin password and limit this demo configuration to development.
+
+PostgreSQL16.15 read `phase1-persistence` before and after recreation under
+`upgrade-review-pg16` on15432; major16 storage and prior restore remain valid.
+
+Resolved digests (all amd64):
+
+| Image | SHA256 |
+| --- | --- |
+| Elasticsearch9.5.5 | `13b4a40bb095774f5fda635e45fd5677cc6a26565e42b24997b0c72b88e75984` |
+| Kibana9.5.5 | `13b72ce7222c36e4213229004ae62a87aeb32fd372ebfa6fb38f7a3285fdbb78` |
+| OpenSearch3.9.0 | `adfa61f85025d06b4aeb562e7e74fde7e31c437039c93c3862c17e9acebd6c7c` |
+| OpenSearch Dashboards3.9.0 | `4bdb8ded547ce7f4c379a10261f1b4aad58726900c215be570a7d1fe86f2a7d8` |
+| PostgreSQL16.15 | `ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d` |
+
+References: [Elastic releases](https://www.elastic.co/docs/release-notes),
+[Elastic upgrade guidance](https://www.elastic.co/docs/deploy-manage/upgrade/deployment-or-cluster),
+[OpenSearch releases](https://opensearch.org/releases/),
+[OpenSearch version history](https://docs.opensearch.org/latest/version-history/).
+
 ## Task 2.5: Jenkins / Tomcat / WireMock
 
 PASS on Docker linux/amd64 (2026-10-14 through16): Jenkins2.580.1-jdk21 created

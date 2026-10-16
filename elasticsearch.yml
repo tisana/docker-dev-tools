@@ -1,6 +1,6 @@
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:9.4.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.5.5
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
     # volumes:
@@ -18,7 +18,7 @@ services:
         soft: -1
         hard: -1
   kibana:
-    image: docker.elastic.co/kibana/kibana:9.4.1
+    image: docker.elastic.co/kibana/kibana:9.5.5
     ports:
       - "${DEV_BIND_ADDRESS:-127.0.0.1}:${KIBANA_PORT:-5601}:5601"
     environment:

@@ -1,6 +1,6 @@
 services:
   opensearch-node1:
-    image: docker.io/opensearchproject/opensearch:3.6.0
+    image: docker.io/opensearchproject/opensearch:3.9.0
     environment:
       - cluster.name=opensearch-cluster
       - node.name=opensearch-node1
@@ -24,7 +24,7 @@ services:
     networks:
       - opensearch-net
   opensearch-node2:
-    image: docker.io/opensearchproject/opensearch:3.6.0
+    image: docker.io/opensearchproject/opensearch:3.9.0
     environment:
       - cluster.name=opensearch-cluster
       - node.name=opensearch-node2
@@ -45,7 +45,7 @@ services:
     networks:
       - opensearch-net
   opensearch-dashboards:
-    image: docker.io/opensearchproject/opensearch-dashboards:3.6.0
+    image: docker.io/opensearchproject/opensearch-dashboards:3.9.0
     ports:
       - "${DEV_BIND_ADDRESS:-127.0.0.1}:${OPENSEARCH_DASHBOARDS_PORT:-5601}:5601"
     expose:
