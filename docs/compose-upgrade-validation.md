@@ -255,3 +255,29 @@ Redis8.2.10 `sha256:47670742d7924adbcdb404d1288b6327815b23141969c0939b8e5d61f78c
 References: [Grafana13 upgrade](https://grafana.com/docs/grafana/latest/upgrade-guide/upgrade-v13.0/),
 [Prometheus3 migration](https://prometheus.io/docs/prometheus/latest/migration/),
 [Redis releases](https://github.com/redis/redis/releases).
+
+## Task 2.5: Jenkins / Tomcat / WireMock
+
+PASS on Docker linux/amd64 (2026-10-14 through16): Jenkins2.580.1-jdk21 created
+and ran a sample shell job successfully; job/build/settings survived recreation.
+The fixture initialization disabled setup/security ONLY in its ignored isolated
+home to exercise the build API; these settings are not part of the Compose file.
+No external agents or original installed plugins/jobs existed to migrate.
+
+Tomcat11.0.27-jdk21-temurin-noble served an actual WAR containing a JSP importing
+`jakarta.servlet.http.HttpServletRequest`; response was `phase2-war GET`.
+No assertion is made that old javax applications run unchanged. The old helper
+was replaced by `tomcat.yml`.
+
+Official WireMock3.13.2 loaded the copied2.x mapping and successfully proxied a
+new unique path `/fixture-v3-new`, saved its mapping, recreated, and replayed it
+with the upstream stopped. Both old/new mapping files remained in isolated
+`.runtime/wiremock`; original bind data was never used.
+
+Digests: Jenkins `sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1`;
+Tomcat `sha256:eaad3aaf03a79837917d1c09e4bf5baedfbc3c6392f89a1c32a054cebb7b9d75`;
+WireMock `sha256:0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3`.
+
+References: [Jenkins Java policy](https://www.jenkins.io/doc/book/platform-information/support-policy-java/),
+[Tomcat supported versions](https://tomcat.apache.org/whichversion.html),
+[WireMock Docker](https://wiremock.org/docs/standalone/docker/).

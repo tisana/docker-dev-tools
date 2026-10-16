@@ -4,5 +4,5 @@ services:
       - "${DEV_BIND_ADDRESS:-127.0.0.1}:${WIREMOCK_PORT:-8088}:8080"
     volumes:
       - "./data/wiremock:/home/wiremock"
-    image: docker.io/rodolpheche/wiremock:2.27.1
-    command: --disable-banner true --container-threads 100 --proxy-all="${WIREMOCK_PROXY_TARGET:?Set the reachable upstream URL}" --record-mappings
+    image: docker.io/wiremock/wiremock:3.13.2
+    command: --disable-banner --container-threads 100 --proxy-all="${WIREMOCK_PROXY_TARGET:?Set the reachable upstream URL}" --record-mappings

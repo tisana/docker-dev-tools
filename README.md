@@ -258,3 +258,24 @@ must emit valid Prometheus text/OpenMetrics with correct Content-Type and LF
 line termination. The bundled JVM dashboard uses supported stat/time-series
 panels; queries, units, thresholds, active value mappings and variables were
 preserved. The unused legacy pie-chart plugin is no longer installed.
+
+## Jenkins, Tomcat and WireMock
+
+Jenkins now uses 2.580.1 LTS/JDK21 with a separate default home at
+`./data/jenkins_lts21` (`JENKINS_HOME_DIR`). Complete its normal setup wizard on
+first launch. For an existing installation, back up the complete old home,
+rehearse the required intermediate core/plugin upgrades on a copy, and verify
+jobs and agents before switching. Jenkins' runtime JDK is separate from the
+JDK/toolchains used by builds. Restore the old core and matching home together
+for rollback; no old home is silently opened by the new default.
+
+`tomcat.yml` replaces `tomcat7.yml` and uses Tomcat11.0.27/JDK21. Start it with
+`docker compose -p dev-tomcat -f tomcat.yml up -d`; deploy a compatible WAR to
+`/usr/local/tomcat/webapps` or supply a deployment bind override. Legacy
+`javax.servlet` applications require migration to Jakarta APIs. The helper's
+root URL may return404 until an application is deployed.
+
+WireMock uses official 3.13.2 and retains `/home/wiremock` mappings/files. Back up
+extensions and recordings before upgrading, and validate custom extensions
+against3.x. A fresh proxy request, recording and offline replay were tested with
+the required upstream setting. No original custom extensions were present.
