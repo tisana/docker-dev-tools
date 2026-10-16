@@ -27,7 +27,7 @@ No old PostgreSQL 16 anonymous data or SonarQube H2 installation was found.
 |---|---|---|---|
 | docker.io/library/postgres:16 | 16.15 | sha256:ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d | linux/amd64 |
 | docker.io/library/postgres:18 | 18.6 | sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336 | linux/amd64 |
-| docker.io/library/sonarqube:latest | Version audit deferred to Phase 3 | sha256:2e378f7852b67d43507d3d383ee8fb5a522b8b0f920be9803f74f72952fce8f1 | linux/amd64 |
+| docker.io/library/sonarqube:latest | Community Build26.10 (audited in Task3.1) | sha256:2e378f7852b67d43507d3d383ee8fb5a522b8b0f920be9803f74f72952fce8f1 | linux/amd64 |
 
 Executed with `POSTGRES_PORT=15432`:
 
@@ -54,13 +54,12 @@ References: [PostgreSQL storage contract](https://github.com/docker-library/docs
 
 ## Acceptance status
 
-All 22 root files passed `docker compose -p review-<stack> -f <file> config --quiet`
-with `OPENSEARCH_INITIAL_ADMIN_PASSWORD`, `WIREMOCK_PROXY_TARGET` and
-`KAFKA_BROKERCONNECT` supplied. This is structural validation only.
-Phase 1 remains in progress; Phases 2 and 3 have not started.
-Kafka storage conversion remains deferred to Task 2.1.
+All three phase gates passed for the available isolated fixtures. The final
+repository acceptance matrix lists each stack, image digest, functional check
+and persistence result. Unavailable populated legacy installations and Podman
+are explicitly qualified rather than treated as migration/runtime passes.
 
-## Phase 1 checks completed so far
+## Phase 1 historical checks
 
 | Stack | Actual functional/persistence result | Isolated project / host port |
 |---|---|---|
@@ -91,7 +90,7 @@ Keycloak, Odoo and WireMock were absent. Their existing mount paths were retaine
 permissions of populated installations remain deployment-specific. Odoo database
 and filestore must be recovered together. Grafana Redis remains ephemeral cache.
 No retained original Kafka topics/schemas were found; only isolated fixtures were
-created. Legacy broker storage is deliberately deferred to the KRaft conversion.
+created. At this Phase1 gate, legacy storage was deferred; Task2.1 subsequently completed the KRaft conversion.
 
 Task 1.3 final results: Windows JDK 21 with the broker's dereferenced client JARs
 produced and consumed `host-client-message` at `localhost:19092`. The container
@@ -257,52 +256,69 @@ References: [Grafana13 upgrade](https://grafana.com/docs/grafana/latest/upgrade-
 [Prometheus3 migration](https://prometheus.io/docs/prometheus/latest/migration/),
 [Redis releases](https://github.com/redis/redis/releases).
 
-## Task 3.2: current floating UI helpers
+## Task 2.5: Jenkins / Tomcat / WireMock
 
-Pulled immediately before checks on2026-10-16, linux/amd64:
+PASS on Docker linux/amd64 (2026-10-14 through16): Jenkins2.580.1-jdk21 created
+and ran a sample shell job successfully; job/build/settings survived recreation.
+The fixture initialization disabled setup/security ONLY in its ignored isolated
+home to exercise the build API; these settings are not part of the Compose file.
+No external agents or original installed plugins/jobs existed to migrate.
 
-| Image | Resolved application | SHA256 |
-| --- | --- | --- |
-| obsidiandynamics/kafdrop:latest | 4.3.0, Java25.0.4 | `4486f52da3b037d62665f5effca34ec096675183742f4c596237b368501546e5` |
-| mongo-express:latest | 1.0.2, Node18.20.3 | `1b23d7976f0210dbec74045c209e52fbb26d29b2e873d6c6fa3d3f0ae32c2a64` |
-| phpmyadmin/phpmyadmin:latest | 5.2.3, PHP8.3.26 | `42a200db07b4e70fbf32c594ad4521cf16399b8e54bbb5adceae98e7566dfbeb` |
-| swaggerapi/swagger-ui:latest | 5.33.3 (bundle PACKAGE_VERSION) | `b26661cd754a7efbb2e1aab419ffb5603320d8f35f0bd086d1d7506e23934d23` |
+Tomcat11.0.27-jdk21-temurin-noble served an actual WAR containing a JSP importing
+`jakarta.servlet.http.HttpServletRequest`; response was `phase2-war GET`.
+No assertion is made that old javax applications run unchanged. The old helper
+was replaced by `tomcat.yml`.
 
-Kafdrop: replaced the48MB heap/180KB stack and deprecated `-noverify` with
-64MB initial/256MB maximum heap and512KB stack. Current Java25 starts cleanly
-with those options. Combined-stack browsing was tested in Phase2; the final
-standalone project uses `host.docker.internal:19092`, with the broker advertising
-that hostname and binding explicitly to0.0.0.0. It sees the retained topic and
-messages through the host route. Separate projects never rely on shared DNS.
+Official WireMock3.13.2 loaded the copied2.x mapping and successfully proxied a
+new unique path `/fixture-v3-new`, saved its mapping, recreated, and replayed it
+with the upstream stopped. Both old/new mapping files remained in isolated
+`.runtime/wiremock`; original bind data was never used.
 
-mongo-express PASS: the actual image's `config.default.js` reads
-`ME_CONFIG_BASICAUTH` (the upstream main branch documents the newer `_ENABLED`
-name). Both Mongo URL/admin auth and explicit UI username/password work.
-Browser created/read/updated/deleted a temporary document. Mongo retained the
-Phase1 record/index after recreation, while the UI-deleted document remained
-absent. Wrong web password returned401; wrong database credentials failed auth.
-`MONGO_EXPRESS_PASSWORD` is required. Retain floating policy and recheck the
-authentication variable against the next pulled digest.
+Digests: Jenkins `sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1`;
+Tomcat `sha256:eaad3aaf03a79837917d1c09e4bf5baedfbc3c6392f89a1c32a054cebb7b9d75`;
+WireMock `sha256:0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3`.
 
-phpMyAdmin PASS: HTTP80 only, `PMA_ARBITRARY=1`, authenticated to MySQL8.4.11
-on an explicitly shared isolated network, executed a SELECT returning the
-fixture value and server version. `/sessions` is writable and retained its
-session file after recreation. The image regenerates its cookie encryption
-secret, so recreation required login again; persistent session files do not
-guarantee persistent authentication. No HTTPS listener is implied.
+References: [Jenkins Java policy](https://www.jenkins.io/doc/book/platform-information/support-policy-java/),
+[Tomcat supported versions](https://tomcat.apache.org/whichversion.html),
+[WireMock Docker](https://wiremock.org/docs/standalone/docker/).
 
-Swagger PASS: browser requested the local `/swagger/sample.yml` (HTTP200),
-rendered that Swagger2 document and reported `swagger/sample.yml` as its
-configured URL. The repository sample itself is titled Swagger Petstore; the
-network request confirms this was the local file, not the remote default.
-`API_URL` is handled by the image's configurator. The specification bind is
-read-only and the running container reports readwrite=false for that mount.
+## Task 2.6: search stacks / PostgreSQL patch
 
-References: [Kafdrop](https://github.com/obsidiandynamics/kafdrop),
-[mongo-express image](https://github.com/docker-library/docs/blob/master/mongo-express/README.md),
-[mongo-express configuration](https://github.com/mongo-express/mongo-express),
-[phpMyAdmin image/session contract](https://github.com/phpmyadmin/docker),
-[Swagger installation](https://github.com/swagger-api/swagger-ui/blob/main/docs/usage/installation.md).
+PASS on 2026-10-16, Docker linux/amd64. Elasticsearch9.4.1 fixture data
+was cold-copied read-only into isolated source storage, then backed up using
+the snapshot API. A fresh9.5.5 cluster restored that snapshot, found the
+recognizable document by query, connected Kibana9.5.5 (`available`), and
+retained the document through recreation. The source and snapshot remain
+available for recovery; no original data volume was upgraded in place.
+This does not establish a direct Elasticsearch7 ->9 migration.
+
+OpenSearch3.9.0 formed a two-node green cluster, accepted authenticated index
+writes/search, connected matching Dashboards3.9.0, and retained the document
+through recreation. Browser admin login reached `/app/home`. The status API
+also requires authentication. No populated legacy OpenSearch installation
+existed; an OpenSearch2 data migration remains installation-specific.
+`vm.max_map_count` was1048576 on the tested Docker Linux VM; no host settings
+were changed. Allocate sufficient VM memory for both nodes and Dashboards.
+Demo HTTPS uses a self-signed certificate; use the required strong initial
+admin password and limit this demo configuration to development.
+
+PostgreSQL16.15 read `phase1-persistence` before and after recreation under
+`upgrade-review-pg16` on15432; major16 storage and prior restore remain valid.
+
+Resolved digests (all amd64):
+
+| Image | SHA256 |
+| --- | --- |
+| Elasticsearch9.5.5 | `13b4a40bb095774f5fda635e45fd5677cc6a26565e42b24997b0c72b88e75984` |
+| Kibana9.5.5 | `13b72ce7222c36e4213229004ae62a87aeb32fd372ebfa6fb38f7a3285fdbb78` |
+| OpenSearch3.9.0 | `adfa61f85025d06b4aeb562e7e74fde7e31c437039c93c3862c17e9acebd6c7c` |
+| OpenSearch Dashboards3.9.0 | `4bdb8ded547ce7f4c379a10261f1b4aad58726900c215be570a7d1fe86f2a7d8` |
+| PostgreSQL16.15 | `ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d` |
+
+References: [Elastic releases](https://www.elastic.co/docs/release-notes),
+[Elastic upgrade guidance](https://www.elastic.co/docs/deploy-manage/upgrade/deployment-or-cluster),
+[OpenSearch releases](https://opensearch.org/releases/),
+[OpenSearch version history](https://docs.opensearch.org/latest/version-history/).
 
 ## Task 3.1: current floating applications
 
@@ -354,66 +370,122 @@ References checked2026-10-16:
 [Sonar database support](https://docs.sonarsource.com/sonarqube-community-build/server-installation/installing-the-database),
 [Sonar Docker mounts/settings](https://docs.sonarsource.com/sonarqube-community-build/server-installation/from-docker-image/set-up-and-start-container).
 
-## Task 2.6: search stacks / PostgreSQL patch
+## Task 3.2: current floating UI helpers
 
-PASS on 2026-10-16, Docker linux/amd64. Elasticsearch9.4.1 fixture data
-was cold-copied read-only into isolated source storage, then backed up using
-the snapshot API. A fresh9.5.5 cluster restored that snapshot, found the
-recognizable document by query, connected Kibana9.5.5 (`available`), and
-retained the document through recreation. The source and snapshot remain
-available for recovery; no original data volume was upgraded in place.
-This does not establish a direct Elasticsearch7 ->9 migration.
+Pulled immediately before checks on2026-10-16, linux/amd64:
 
-OpenSearch3.9.0 formed a two-node green cluster, accepted authenticated index
-writes/search, connected matching Dashboards3.9.0, and retained the document
-through recreation. Browser admin login reached `/app/home`. The status API
-also requires authentication. No populated legacy OpenSearch installation
-existed; an OpenSearch2 data migration remains installation-specific.
-`vm.max_map_count` was1048576 on the tested Docker Linux VM; no host settings
-were changed. Allocate sufficient VM memory for both nodes and Dashboards.
-Demo HTTPS uses a self-signed certificate; use the required strong initial
-admin password and limit this demo configuration to development.
+| Image | Resolved application | SHA256 |
+| --- | --- | --- |
+| obsidiandynamics/kafdrop:latest | 4.3.0, Java25.0.4 | `4486f52da3b037d62665f5effca34ec096675183742f4c596237b368501546e5` |
+| mongo-express:latest | 1.0.2, Node18.20.3 | `1b23d7976f0210dbec74045c209e52fbb26d29b2e873d6c6fa3d3f0ae32c2a64` |
+| phpmyadmin/phpmyadmin:latest | 5.2.3, PHP8.3.26 | `42a200db07b4e70fbf32c594ad4521cf16399b8e54bbb5adceae98e7566dfbeb` |
+| swaggerapi/swagger-ui:latest | 5.33.3 (bundle PACKAGE_VERSION) | `b26661cd754a7efbb2e1aab419ffb5603320d8f35f0bd086d1d7506e23934d23` |
 
-PostgreSQL16.15 read `phase1-persistence` before and after recreation under
-`upgrade-review-pg16` on15432; major16 storage and prior restore remain valid.
+Kafdrop: replaced the48MB heap/180KB stack and deprecated `-noverify` with
+64MB initial/256MB maximum heap and512KB stack. Current Java25 starts cleanly
+with those options. Combined-stack browsing was tested in Phase2; the final
+standalone project uses `host.docker.internal:19092`, with the broker advertising
+that hostname and binding explicitly to0.0.0.0. It sees the retained topic and
+messages through the host route. Separate projects never rely on shared DNS.
 
-Resolved digests (all amd64):
+mongo-express PASS: the actual image's `config.default.js` reads
+`ME_CONFIG_BASICAUTH` (the upstream main branch documents the newer `_ENABLED`
+name). Both Mongo URL/admin auth and explicit UI username/password work.
+Browser created/read/updated/deleted a temporary document. Mongo retained the
+Phase1 record/index after recreation, while the UI-deleted document remained
+absent. Wrong web password returned401; wrong database credentials failed auth.
+`MONGO_EXPRESS_PASSWORD` is required. Retain floating policy and recheck the
+authentication variable against the next pulled digest.
 
-| Image | SHA256 |
+phpMyAdmin PASS: HTTP80 only, `PMA_ARBITRARY=1`, authenticated to MySQL8.4.11
+on an explicitly shared isolated network, executed a SELECT returning the
+fixture value and server version. `/sessions` is writable and retained its
+session file after recreation. The image regenerates its cookie encryption
+secret, so recreation required login again; persistent session files do not
+guarantee persistent authentication. No HTTPS listener is implied.
+
+Swagger PASS: browser requested the local `/swagger/sample.yml` (HTTP200),
+rendered that Swagger2 document and reported `swagger/sample.yml` as its
+configured URL. The repository sample itself is titled Swagger Petstore; the
+network request confirms this was the local file, not the remote default.
+`API_URL` is handled by the image's configurator. The specification bind is
+read-only and the running container reports readwrite=false for that mount.
+
+References: [Kafdrop](https://github.com/obsidiandynamics/kafdrop),
+[mongo-express image](https://github.com/docker-library/docs/blob/master/mongo-express/README.md),
+[mongo-express configuration](https://github.com/mongo-express/mongo-express),
+[phpMyAdmin image/session contract](https://github.com/phpmyadmin/docker),
+[Swagger installation](https://github.com/swagger-api/swagger-ui/blob/main/docs/usage/installation.md).
+
+## Final repository acceptance (2026-10-16)
+
+All22 final stacks parse on Compose5.6.0;29 active image references resolved to
+local amd64 digests below. Implicit latest references were included. Negative
+checks unset each of six required variables (Kafka cluster ID, Keycloak,
+mongo-express and OpenSearch passwords, standalone Kafdrop broker, WireMock
+upstream), and each configuration failed with its setting named. PostgreSQL
+25432/0.0.0.0 and MySQL23306/Adminer28080 overrides rendered correctly. Phase1
+also ran two independent PostgreSQL projects with separate data/ports and a
+broader-bind host route. `promtool check config` under3.15.0 and `git diff
+--check` passed. Podman executable/runner is unavailable: unverified.
+
+| Original stack -> final entry | Functional and persistence evidence | Task |
+| --- | --- | --- |
+| dynamodb.yml | Copied SQLite upgrade, CRUD/PartiQL, recreation and restored old-image recovery | 1.2,2.3 |
+| elasticsearch.yml | Snapshot restore9.4->9.5, query, Kibana available, retained document | 2.6 |
+| grafana.yml | Saved dashboard, PostgreSQL logical migration, cache, recreation and old recovery | 2.4 |
+| jenkins.yml | Job/build/settings on isolated home, recreation; no external agent/plugins present | 2.5 |
+| kafdrop.yml | Combined and standalone broker routes, browser topics/messages; no durable local state | 2.1,3.2 |
+| kafka.yml | Host/container produce/consume, schemas/references and messages retained | 2.1 |
+| keycloak.yml | Imported realm/client/user, token/discovery, PostgreSQL recreation; legacy installation absent | 2.2 |
+| metabase.yml | Pre-pull H2 copied upgrade; question/dashboard retained | 1.2,3.1 |
+| mongodb.yml | 6->7->8/FCV/indexes, browser CRUD, wrong auth, recreation, restored old recovery | 2.3,3.2 |
+| monitoring.yml | Fixture scrape/JVM panels, Grafana copied migration, Prom history/recreation and old recovery | 2.4 |
+| mysql.yml | 5.7->8.0->8.4 logical migration, mixedcase/indexes/settings, Adminer query/recreation | 2.3 |
+| mysql8.yml | Authenticated SQL/indexes, Adminer query/recreation | 1.2,2.3 |
+| nexus.yml | Raw artifact upload/download/recreation after user-authorized EULA; old installation absent | 3.1 |
+| odoo.yml | Base addon/business record/attachment/login retained; original custom addons absent | 2.2 |
+| opensearch.yml | Two-node green cluster, authenticated index/search, Dashboards login, recreation | 2.6 |
+| phpmyadmin.yml | Authenticated MySQL8.4 SQL; session files retained, login required after recreation | 3.2 |
+| postgresql.yml | SQL, dump/restore and recreation at16.15 | 1.1,2.6 |
+| redisinsight.yml | Redis key browsing and saved profile recreation; new storage, no automatic1.x migration | 2.3 |
+| sonarqube.yml | Real scanner/CE result, PostgreSQL snapshots and recreation | 1.1,3.1 |
+| swagger.yml | Local specification HTTP200/rendering, read-only bind; no application state | 3.2 |
+| tomcat7.yml -> tomcat.yml | Jakarta-compatible WAR/JSP endpoint; javax migration required | 2.5 |
+| wiremock.yml | Copied mapping, fresh proxy/record and recreated offline replay | 1.3,2.5 |
+
+Final image inventory follows. Pinned versions identify their runtime baseline;
+floating application versions are recorded in Tasks3.1/3.2. The same digest may
+appear in several stacks. These are audit records, not digest locks in Compose.
+
+| Image reference | Resolved digest (SHA256), linux/amd64 |
 | --- | --- |
-| Elasticsearch9.5.5 | `13b4a40bb095774f5fda635e45fd5677cc6a26565e42b24997b0c72b88e75984` |
-| Kibana9.5.5 | `13b72ce7222c36e4213229004ae62a87aeb32fd372ebfa6fb38f7a3285fdbb78` |
-| OpenSearch3.9.0 | `adfa61f85025d06b4aeb562e7e74fde7e31c437039c93c3862c17e9acebd6c7c` |
-| OpenSearch Dashboards3.9.0 | `4bdb8ded547ce7f4c379a10261f1b4aad58726900c215be570a7d1fe86f2a7d8` |
-| PostgreSQL16.15 | `ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d` |
-
-References: [Elastic releases](https://www.elastic.co/docs/release-notes),
-[Elastic upgrade guidance](https://www.elastic.co/docs/deploy-manage/upgrade/deployment-or-cluster),
-[OpenSearch releases](https://opensearch.org/releases/),
-[OpenSearch version history](https://docs.opensearch.org/latest/version-history/).
-
-## Task 2.5: Jenkins / Tomcat / WireMock
-
-PASS on Docker linux/amd64 (2026-10-14 through16): Jenkins2.580.1-jdk21 created
-and ran a sample shell job successfully; job/build/settings survived recreation.
-The fixture initialization disabled setup/security ONLY in its ignored isolated
-home to exercise the build API; these settings are not part of the Compose file.
-No external agents or original installed plugins/jobs existed to migrate.
-
-Tomcat11.0.27-jdk21-temurin-noble served an actual WAR containing a JSP importing
-`jakarta.servlet.http.HttpServletRequest`; response was `phase2-war GET`.
-No assertion is made that old javax applications run unchanged. The old helper
-was replaced by `tomcat.yml`.
-
-Official WireMock3.13.2 loaded the copied2.x mapping and successfully proxied a
-new unique path `/fixture-v3-new`, saved its mapping, recreated, and replayed it
-with the upstream stopped. Both old/new mapping files remained in isolated
-`.runtime/wiremock`; original bind data was never used.
-
-Digests: Jenkins `sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1`;
-Tomcat `sha256:eaad3aaf03a79837917d1c09e4bf5baedfbc3c6392f89a1c32a054cebb7b9d75`;
-WireMock `sha256:0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3`.
-
-References: [Jenkins Java policy](https://www.jenkins.io/doc/book/platform-information/support-policy-java/),
-[Tomcat supported versions](https://tomcat.apache.org/whichversion.html),
-[WireMock Docker](https://wiremock.org/docs/standalone/docker/).
+| `docker.elastic.co/elasticsearch/elasticsearch:9.5.5` | `13b4a40bb095774f5fda635e45fd5677cc6a26565e42b24997b0c72b88e75984` |
+| `docker.elastic.co/kibana/kibana:9.5.5` | `13b72ce7222c36e4213229004ae62a87aeb32fd372ebfa6fb38f7a3285fdbb78` |
+| `docker.io/amazon/dynamodb-local:3.3.1` | `ff89bd48ff32cd8d9be5fee8873b65b8854dc408f1afe881be6eb00247bc0dab` |
+| `docker.io/confluentinc/cp-kafka:8.3.2` | `5e8f3ab5b4977c9a8fd6137d26af2caad878aca316f24c55f08206217e3cec48` |
+| `docker.io/confluentinc/cp-schema-registry:8.3.2` | `482d3048b3f6029bae5794b5c3b5e2eea8d61ca064dacd32241315e818fd8d7c` |
+| `docker.io/grafana/grafana:13.2.4` | `dbbc38ea21103cefb50396340cd88afec779c7e070b0a7bf5a75b4ce46651d3f` |
+| `docker.io/jenkins/jenkins:2.580.1-jdk21` | `a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1` |
+| `docker.io/library/adminer:6.1.2` | `c4e439badea7c611be25d4b1e83f82333b5f10cc2fe8c899725c665541e33ff1` |
+| `docker.io/library/mongo:8.0.34` | `6657bf2413fefc5be649390318f5b4cd7328e982722f8ce2ac6dfa6f0a42cb03` |
+| `docker.io/library/mongo-express:latest` | `1b23d7976f0210dbec74045c209e52fbb26d29b2e873d6c6fa3d3f0ae32c2a64` |
+| `docker.io/library/mysql:8.4.11` | `24989179f58856db763f418010c1169fecc944e3ec1ea7e921572d83eb070f70` |
+| `docker.io/library/odoo:20.0-20260926` | `cdd83e8359b3e8c357895d476396c05021fed9975bf420f353bab25fcaed1533` |
+| `docker.io/library/postgres:16.15` | `ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d` |
+| `docker.io/library/postgres:17.11` | `2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3` |
+| `docker.io/library/postgres:18` | `74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336` |
+| `docker.io/library/redis:8.2.10` | `47670742d7924adbcdb404d1288b6327815b23141969c0939b8e5d61f78c2634` |
+| `docker.io/library/sonarqube:latest` | `2e378f7852b67d43507d3d383ee8fb5a522b8b0f920be9803f74f72952fce8f1` |
+| `docker.io/library/tomcat:11.0.27-jdk21-temurin-noble` | `eaad3aaf03a79837917d1c09e4bf5baedfbc3c6392f89a1c32a054cebb7b9d75` |
+| `docker.io/metabase/metabase` | `f69044cd03f1a9968cdd427f23e3f50b893666f0092e6cac1ef7e2e30e100a96` |
+| `docker.io/obsidiandynamics/kafdrop:latest` | `4486f52da3b037d62665f5effca34ec096675183742f4c596237b368501546e5` |
+| `docker.io/opensearchproject/opensearch:3.9.0` | `adfa61f85025d06b4aeb562e7e74fde7e31c437039c93c3862c17e9acebd6c7c` |
+| `docker.io/opensearchproject/opensearch-dashboards:3.9.0` | `4bdb8ded547ce7f4c379a10261f1b4aad58726900c215be570a7d1fe86f2a7d8` |
+| `docker.io/phpmyadmin/phpmyadmin:latest` | `42a200db07b4e70fbf32c594ad4521cf16399b8e54bbb5adceae98e7566dfbeb` |
+| `docker.io/prom/prometheus:v3.15.0` | `efd719c99d83b060d9daefdcf00360461adf279f45ef5391f8d111892118753e` |
+| `docker.io/redis/redisinsight:3.8.0` | `b5e19ee240abef6edb435871b90ff8a210995422e8e018ab61c0339d318a1f84` |
+| `docker.io/sonatype/nexus3` | `772ad5badde07e15f2c25c750437fcbb01ebdb84a8c43a3ed38eda60bb6448f1` |
+| `docker.io/swaggerapi/swagger-ui` | `b26661cd754a7efbb2e1aab419ffb5603320d8f35f0bd086d1d7506e23934d23` |
+| `docker.io/wiremock/wiremock:3.13.2` | `0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3` |
+| `quay.io/keycloak/keycloak:26.8.1` | `79c623a22abacf3fe6c00a5fb30f5b7843d717b234033b80995891c06116d244` |

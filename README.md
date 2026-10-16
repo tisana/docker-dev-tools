@@ -45,7 +45,7 @@ podman compose -p dev-postgres -f postgresql.yml up -d
 
 ## Upgrade execution
 
-Work is staged in three phases. See [the validation record](docs/compose-upgrade-validation.md)
+The three-phase upgrade is implemented and verified on Docker Compose. See [the validation record](docs/compose-upgrade-validation.md)
 for actual checks; a parsed configuration is not evidence of application readiness.
 
 Standalone PostgreSQL 16 now stores data in its named volume at
@@ -62,7 +62,7 @@ backup together. Never downgrade an upgraded data directory in place.
 
 ## Local configuration and storage
 
-Copy `.env.example` to `.env`, fill the required OpenSearch password, and supply
+Copy `.env.example` to `.env`; fill the required OpenSearch, Keycloak and mongo-express passwords, generate a stable Kafka cluster ID, and supply
 WireMock's upstream and Kafdrop's broker before starting those helpers. Bindings
 default to `127.0.0.1`; changing `DEV_BIND_ADDRESS` exposes the selected tools on
 that address. Development defaults are not deployment credentials.
@@ -90,27 +90,27 @@ through the UI/API as well; an open port or `up -d` alone is insufficient.
 
 | Stack / project | Host port settings (defaults) | Persistent storage |
 |---|---|---|
-| `dynamodb.yml` / `dev-dynamodb` | `DYNAMODB_PORT=8000` | `dynamodb-data` -> `/home/dynamodblocal/data` |
+| `dynamodb.yml` / `dev-dynamodb` | `DYNAMODB_PORT=8000` | `dynamodb-v3-data` -> `/home/dynamodblocal/data` |
 | `elasticsearch.yml` / `dev-elasticsearch` | `ELASTICSEARCH_PORT=9200`, `ELASTICSEARCH_TRANSPORT_PORT=9300`, `KIBANA_PORT=5601` | `elasticsearch-data` -> `/usr/share/elasticsearch/data` |
-| `grafana.yml` / `dev-grafana` | `GRAFANA_PORT=3000`, `GRAFANA_POSTGRES_PORT=5432` | `grafana-db-data` -> `/var/lib/postgresql/data/pgdata`; `grafana-data` -> `/var/lib/grafana` |
+| `grafana.yml` / `dev-grafana` | `GRAFANA_PORT=3000`, `GRAFANA_POSTGRES_PORT=5432` | `grafana-db-v17-data` -> `/var/lib/postgresql/data/pgdata`; `grafana-v13-data` -> `/var/lib/grafana` |
 | `jenkins.yml` / `dev-jenkins` | `JENKINS_PORT=8080`, `JENKINS_AGENT_PORT=50000` | bind -> `/var/jenkins_home` |
-| `kafdrop.yml` / `dev-kafdrop` | `KAFDROP_PORT=9000` |  |
-| `kafka.yml` / `dev-kafka` | `ZOOKEEPER_PORT=2181`, `KAFKA_PORT=9092`, `KAFKA_PORT=9092`, `SCHEMA_REGISTRY_PORT=8081` |  |
-| `keycloak.yml` / `dev-keycloak` | `KEYCLOAK_PORT=8080`, `KEYCLOAK_MANAGEMENT_PORT=9990` | bind -> `/var/lib/postgresql/data` |
+| `kafdrop.yml` / `dev-kafdrop` | `KAFDROP_PORT=9000` | Ephemeral; external dependency |
+| `kafka.yml` / `dev-kafka` | `KAFKA_PORT=9092`, `SCHEMA_REGISTRY_PORT=8081` | `kafka-kraft-data` -> `/var/lib/kafka/data` |
+| `keycloak.yml` / `dev-keycloak` | `KEYCLOAK_PORT=8080` | bind -> `/var/lib/postgresql/data` |
 | `metabase.yml` / `dev-metabase` | `METABASE_PORT=3000` | `metabase-data` -> `/metabase-data` |
-| `mongodb.yml` / `dev-mongodb` | `MONGODB_PORT=27017`, `MONGO_EXPRESS_PORT=8081` | `mongodb-data` -> `/data/db` |
-| `monitoring.yml` / `dev-monitoring` | `PROMETHEUS_PORT=9090`, `MONITORING_GRAFANA_PORT=3000` | bind -> `/etc/grafana/provisioning`; `monitoring-grafana-data` -> `/var/lib/grafana`; bind -> `/etc/prometheus`; `prometheus-data` -> `/prometheus` |
+| `mongodb.yml` / `dev-mongodb` | `MONGODB_PORT=27017`, `MONGO_EXPRESS_PORT=8081` | `mongodb-v8-data` -> `/data/db` |
+| `monitoring.yml` / `dev-monitoring` | `PROMETHEUS_PORT=9090`, `MONITORING_GRAFANA_PORT=3000` | bind -> `/etc/grafana/provisioning`; `monitoring-grafana-v13-data` -> `/var/lib/grafana`; bind -> `/etc/prometheus`; `prometheus-v3-data` -> `/prometheus` |
+| `mysql8.yml` / `dev-mysql8` | `MYSQL8_PORT=3306`, `MYSQL8_ADMINER_PORT=8080` | `mysql8-data` -> `/var/lib/mysql` |
 | `mysql.yml` / `dev-mysql` | `MYSQL_PORT=3306`, `MYSQL_ADMINER_PORT=8080` | bind -> `/var/lib/mysql` |
-| `mysql8.yml` / `dev-mysql8` |  | `mysql8-data` -> `/var/lib/mysql` |
 | `nexus.yml` / `dev-nexus` | `NEXUS_PORT=8081` | bind -> `/nexus-data` |
-| `odoo.yml` / `dev-odoo` | `ODOO_PORT=8069` | `odoo-db-data` -> `/var/lib/postgresql/data/pgdata`; `odoo-web-data` -> `/var/lib/odoo`; bind -> `/etc/odoo`; bind -> `/mnt/extra-addons` |
+| `odoo.yml` / `dev-odoo` | `ODOO_PORT=8069` | `odoo-db-v17-data` -> `/var/lib/postgresql/data/pgdata`; `odoo-web-v20-data` -> `/var/lib/odoo`; bind -> `/etc/odoo`; bind -> `/mnt/extra-addons` |
 | `opensearch.yml` / `dev-opensearch` | `OPENSEARCH_PORT=9200`, `OPENSEARCH_ANALYZER_PORT=9600`, `OPENSEARCH_DASHBOARDS_PORT=5601` | `opensearch-data1` -> `/usr/share/opensearch/data`; `opensearch-data2` -> `/usr/share/opensearch/data` |
 | `phpmyadmin.yml` / `dev-phpmyadmin` | `PHPMYADMIN_PORT=80` | `phpmyadmin_session` -> `/sessions` |
 | `postgresql.yml` / `dev-postgresql` | `POSTGRES_PORT=5432` | `postgresql` -> `/var/lib/postgresql/data` |
-| `redisinsight.yml` / `dev-redisinsight` | `REDISINSIGHT_PORT=8001` | `redisinsight` -> `/db` |
-| `sonarqube.yml` / `dev-sonarqube` | `SONARQUBE_PORT=9001`, `SONARQUBE_LEGACY_PORT=9092` | `sonarqube_postgresql` -> `/var/lib/postgresql`; `sonarqube_conf` -> `/opt/sonarqube/conf`; `sonarqube_data` -> `/opt/sonarqube/data`; `sonarqube_extensions` -> `/opt/sonarqube/extensions`; `sonarqube_logs` -> `/opt/sonarqube/logs`; `sonarqube_bundled-plugins` -> `/opt/sonarqube/lib/bundled-plugins` |
+| `redisinsight.yml` / `dev-redisinsight` | `REDISINSIGHT_PORT=8001` | `redisinsight-v3` -> `/data` |
+| `sonarqube.yml` / `dev-sonarqube` | `SONARQUBE_PORT=9001` | `sonarqube_postgresql` -> `/var/lib/postgresql`; `sonarqube_data` -> `/opt/sonarqube/data`; `sonarqube_extensions` -> `/opt/sonarqube/extensions`; `sonarqube_logs` -> `/opt/sonarqube/logs` |
 | `swagger.yml` / `dev-swagger` | `SWAGGER_PORT=8001` | bind -> `/usr/share/nginx/html/swagger` |
-| `tomcat7.yml` / `dev-tomcat7` | `TOMCAT_PORT=8080` | bind -> `/usr/local/tomcat/logs` |
+| `tomcat.yml` / `dev-tomcat` | `TOMCAT_PORT=8080` | bind -> `/usr/local/tomcat/logs` |
 | `wiremock.yml` / `dev-wiremock` | `WIREMOCK_PORT=8088` | bind -> `/home/wiremock` |
 
 ## Dependency addresses and setup
@@ -131,8 +131,7 @@ binding and firewall rules. Podman gateway routing is unverified on this machine
 - Kafka advertises `KAFKA_ADVERTISED_HOST` (default `localhost`) and `KAFKA_PORT`
   to host clients. For remote/container host routing choose a reachable hostname
   and a suitable bind address. The internal broker remains `kafka:29092`.
-  Legacy Kafka storage remains ephemeral pending the planned KRaft migration;
-  export needed topics/messages and schemas before stopping its project.
+  Kafka persists in `kafka-kraft-data`; keep its cluster ID with that volume.
 - Monitoring Grafana uses `http://prometheus:9090`. Prometheus's
   `host-application` job expects the host application on port 8081 at
   `/management/prometheus`; edit the target for your application. This is not a
@@ -146,7 +145,7 @@ binding and firewall rules. Podman gateway routing is unverified on this machine
   Adminer server names are `mysql` on their own networks. Redis Insight is a UI
   and requires a separately reachable Redis server. Standalone Grafana uses
   PostgreSQL for durable settings; its Redis cache is intentionally disposable.
-- Keycloak, Odoo, Jenkins and Nexus retain their existing bind/volume layouts.
+- Keycloak, Odoo and Jenkins use new version-specific storage for major upgrades; Nexus retains its bind path. See the migration notes below.
   Back up Odoo's PostgreSQL database, filestore, configuration and addons as a
   matched set. Back up Jenkins home including jobs/plugins/configuration, and
   Nexus data including artifact metadata. Never change a database major on these
@@ -280,4 +279,70 @@ extensions and recordings before upgrading, and validate custom extensions
 against3.x. A fresh proxy request, recording and offline replay were tested with
 the required upstream setting. No original custom extensions were present.
 
-Search helpers now pair Elasticsearch/Kibana9.5.5 and OpenSearch/Dashboards3.9.0. PostgreSQL stays on16.15. For older populated search installations, inspect the actual data version and use supported intermediate upgrades or snapshot/reindex migration on copies. OpenSearch requires a strong OPENSEARCH_INITIAL_ADMIN_PASSWORD, sufficient Docker VM memory, and vm.max_map_count >=262144. Demo TLS is self-signed; Dashboards login is admin with the supplied password. See the dated validation record for snapshot recovery and recreation evidence.
+## Search helpers
+
+Elasticsearch/Kibana use9.5.5; OpenSearch/Dashboards use3.9.0. Standalone
+PostgreSQL remains on16.15. Inspect the actual search data version before
+upgrading a populated installation; follow supported intermediate upgrades or
+snapshot/reindex procedures on copies. New tags do not migrate old files.
+OpenSearch requires a strong `OPENSEARCH_INITIAL_ADMIN_PASSWORD`, adequate VM
+memory for two nodes plus Dashboards, and `vm.max_map_count >=262144`. Check the
+Linux VM's value before startup; change host settings only through your engine's
+documented procedure. Demo TLS is self-signed. Dashboards login is `admin` with
+the supplied password. Elasticsearch's bundled helper has security disabled for
+local development. See the validation record for snapshot/recreation evidence.
+
+## Floating application and UI images
+
+The `latest` policy is retained for Metabase, Nexus, SonarQube, Kafdrop,
+mongo-express, phpMyAdmin and Swagger UI; Sonar's PostgreSQL18 major tag also
+floats. Acceptance applies to the digests resolved on2026-10-16 in the
+[validation record](docs/compose-upgrade-validation.md). Repeat those checks
+after pulling different digests, using copied application data first.
+
+SonarQube latest resolves to Community Build26.10 and supports PostgreSQL18.
+Only port9000 is required (host9001). Before retiring old `conf` and
+`lib/bundled-plugins` mounts, export local settings and inventory plugins;
+apply settings through supported `SONAR_*` environment variables and install
+compatible extensions. Old volumes are not deleted. Data, extensions and logs
+remain mounted. The real scanner analysis and results survived recreation.
+
+Metabase's `MB_DB_FILE` persists H2 beneath `/metabase-data`; back up the whole
+volume with Metabase stopped, including its `metabase.db` subdirectory. First-run
+setup creates the administrator. H2 is intended for this development helper.
+
+Nexus latest resolves to Community Edition3.97/Java21. Complete onboarding and
+review/accept its [CE EULA](https://links.sonatype.com/products/nxrm/ce-eula)
+before artifact transfers; startup alone does not enable uploads/downloads.
+Read the generated initial admin password from `/nexus-data/admin.password`,
+then change it during setup. The retained bind must be writable by UID200 on
+Linux; the current image sizes JVM memory in its launcher. Allocate adequate VM
+memory and follow [vendor upgrade steps](https://help.sonatype.com/en/ce-onboarding.html)
+for old OrientDB/H2 installations. No original Nexus database existed here.
+
+mongo-express requires `MONGO_EXPRESS_PASSWORD`; username defaults to `admin`.
+This web password is distinct from the development MongoDB credentials. The
+tested1.0.2 image reads `ME_CONFIG_BASICAUTH`; recheck that name after a new pull,
+since upstream development has changed it. The UI is for private development.
+
+Kafdrop uses a256MB maximum heap and512KB stack compatible with its current
+Java25 runtime. For standalone use, the broker must advertise an endpoint the
+Kafdrop container can reach. The tested Docker Desktop host route used
+`KAFKA_ADVERTISED_HOST=host.docker.internal`, `KAFKA_PORT=19092`, and an explicit
+`DEV_BIND_ADDRESS=0.0.0.0` on the broker; the separate Kafdrop project used
+`KAFKA_BROKERCONNECT=host.docker.internal:19092`. Limit broader bindings to the
+required development network. Combined use retains `kafka:29092`.
+
+phpMyAdmin accepts a reachable server on its login screen; combine it with
+`mysql8.yml` under the same project to use server `mysql`, overriding host ports
+if needed. Its session files persist in `/sessions`, but the image regenerates
+its cookie secret when recreated, so expect to log in again. HTTP only is
+published. Swagger UI serves the read-only local `swagger/sample.yml` using
+`API_URL`; the supplied sample's title is Swagger Petstore, but its document is
+fetched locally, not from the remote default.
+
+Docker Desktop linux/amd64 is the tested environment. Podman is unavailable;
+its dependency conditions, bind ownership and host gateway routing remain
+unverified. No populated original Keycloak12/Odoo13/Jenkins/plugin installations
+were available. Their migration instructions are prerequisites, not a claim
+that arbitrary existing application data or custom addons were converted.
