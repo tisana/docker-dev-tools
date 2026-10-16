@@ -212,3 +212,46 @@ References: [Mongo7 upgrade](https://www.mongodb.com/docs/manual/release-notes/7
 [MySQL paths](https://dev.mysql.com/doc/refman/8.4/en/upgrade-paths.html),
 [DynamoDB history](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocalHistory.html),
 [Redis Insight Docker](https://redis.io/docs/latest/operate/redisinsight/install/install-on-docker/).
+
+## Task 2.4: Grafana / Prometheus
+
+PASS on linux/amd64 through 2026-10-16:
+
+- Monitoring copied the Grafana7.1.5 SQLite metadata, retired the copied legacy
+  pie-chart plugin outside the loaded plugin directory, upgraded through 12.3.5
+  to 13.2.4, and retained the saved dashboard after recreation.
+- Standalone Grafana9.1.7/PostgreSQL14 saved a dashboard, dumped its database,
+  restored into PostgreSQL17.11, upgraded through Grafana12.3.5 to13.2.4 and
+  retained the dashboard after recreation. The pre-change 9.1.7/14 fixture still
+  loaded its dashboard as a recovery check. Redis8.2.10 cache worked throughout.
+- Prometheus3.15.0 passed `promtool check config`; a restored COPY of v2.21 data
+  returned fixture value42 at timestamp1791996960, and v3 returned the same
+  historical timestamp/value. New samples also survived recreation.
+- Browser verified the provisioned JVM dashboard against host fixture metrics:
+  uptime1h, heap50%, nonheap25%, CPU25%/15%, threads12/6/15, and populated memory
+  graphs. Application/instance/pool variables resolved. Metrics absent from the
+  bounded fixture (such as GC/load) correctly showed no data.
+- JSON migration preserved all target expressions, variable queries, units,
+  thresholds and active range/value mappings. Four singlestat panels became
+  stat;27 legacy graph panels became timeseries. No external panel plugin is
+  needed. Screenshot is local-only `.runtime/jvm-dashboard.png`.
+
+The first copied-database provisioning attempt forced a different datasource UID
+and failed. Keeping the existing identity by name fixed it. The modern API probe
+uses the UID proxy route; the old numeric-ID route returned404. A Windows fixture
+with a final CRLF failed text parsing; canonical LF output passed.
+
+Automatic approval review rejected opening the existing history volume with an
+old image. The recovery check instead cloned that source READ-ONLY into a new
+isolated restoration volume, then ran the old image only on the copy; it passed.
+No original history was opened or changed by that rejected action.
+
+Digests: Grafana13.2.4 `sha256:dbbc38ea21103cefb50396340cd88afec779c7e070b0a7bf5a75b4ce46651d3f`;
+Grafana12.3.5 bridge `sha256:a604f143dbb145a16cd58d22b1451826ee59fcf9de561dc6d698b1de222272d0`;
+Grafana9.1.7 `sha256:8b81f1225bc450e56cdcaffbfa5a051b891c8332789960e7362c38edba73a123`;
+Prometheus3.15.0 `sha256:efd719c99d83b060d9daefdcf00360461adf279f45ef5391f8d111892118753e`;
+Redis8.2.10 `sha256:47670742d7924adbcdb404d1288b6327815b23141969c0939b8e5d61f78c2634`.
+
+References: [Grafana13 upgrade](https://grafana.com/docs/grafana/latest/upgrade-guide/upgrade-v13.0/),
+[Prometheus3 migration](https://prometheus.io/docs/prometheus/latest/migration/),
+[Redis releases](https://github.com/redis/redis/releases).

@@ -240,3 +240,21 @@ consistent. Redis Insight 3.8.0 uses `docker.io/redis/redisinsight`, `/data` in
 `redisinsight-v3`, and host port 8001 -> container 5540. It requires a Redis server.
 Export old 1.x connections before retiring its `/db` volume; the new helper uses
 fresh storage rather than claiming automatic metadata conversion.
+
+## Grafana / Prometheus migration
+
+Both Grafana helpers use 13.2.4; monitoring uses Prometheus 3.15.0. Standalone
+Grafana uses PostgreSQL 17.11 and disposable Redis 8.2.10 cache. It does not mount
+the monitoring datasource. New durable volumes are version-specific; old volumes
+are retained for recovery. Back up Grafana's database, data/plugins and config
+before migration. Rehearse intermediate Grafana upgrades and PostgreSQL logical
+backup/restore on copies before changing a populated installation.
+
+Monitoring's Prometheus storage path is explicitly `/prometheus/data`, matching
+the old helper's on-disk layout inside its volume. Copy stopped storage into
+`prometheus-v3-data` and verify historical timestamps before switching. Preserve
+the old image and old storage together for rollback. Scrape fixtures/exporters
+must emit valid Prometheus text/OpenMetrics with correct Content-Type and LF
+line termination. The bundled JVM dashboard uses supported stat/time-series
+panels; queries, units, thresholds, active value mappings and variables were
+preserved. The unused legacy pie-chart plugin is no longer installed.

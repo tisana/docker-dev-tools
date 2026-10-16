@@ -1,28 +1,25 @@
 services:
   prometheus:
-    image: docker.io/prom/prometheus:v2.21.0
+    image: docker.io/prom/prometheus:v3.15.0
     volumes:
       - ./prometheus/:/etc/prometheus/:ro
-      - prometheus-data:/prometheus
+      - prometheus-v3-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus/data'
     ports:
       - "${DEV_BIND_ADDRESS:-127.0.0.1}:${PROMETHEUS_PORT:-9090}:9090"
   grafana:
-    image: docker.io/grafana/grafana:7.1.5
+    image: docker.io/grafana/grafana:13.2.4
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/:ro
-      - monitoring-grafana-data:/var/lib/grafana
+      - monitoring-grafana-v13-data:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_INSTALL_PLUGINS=grafana-piechart-panel
     ports:
       - "${DEV_BIND_ADDRESS:-127.0.0.1}:${MONITORING_GRAFANA_PORT:-3000}:3000"
-    # On MacOS, remove next line and replace localhost by host.docker.internal in prometheus/prometheus.yml and
-    # grafana/provisioning/datasources/datasource.yml
-    # network_mode: 'host' # to test locally running service
 
 volumes:
-  prometheus-data:
-  monitoring-grafana-data:
+  prometheus-v3-data:
+  monitoring-grafana-v13-data:
