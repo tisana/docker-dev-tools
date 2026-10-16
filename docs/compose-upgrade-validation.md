@@ -329,7 +329,7 @@ Pulled immediately before checks on2026-10-16, linux/amd64:
 | metabase/metabase:latest | v0.64.2.7 (2026-10-15) | `f69044cd03f1a9968cdd427f23e3f50b893666f0092e6cac1ef7e2e30e100a96` |
 | sonatype/nexus3:latest | 3.97.0-13 Community Edition, Java21.0.12 | `772ad5badde07e15f2c25c750437fcbb01ebdb84a8c43a3ed38eda60bb6448f1` |
 | sonarqube:latest | Community Build26.10.0.133078 | `2e378f7852b67d43507d3d383ee8fb5a522b8b0f920be9803f74f72952fce8f1` |
-| postgres:18 | 18.4 (Sonar dependency) | `74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336` |
+| postgres:18 | 18.6 (Sonar dependency) | `74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336` |
 
 Metabase PASS: copied the stopped Phase1 H2 volume read-only into a new project,
 then started the newly pulled digest. Question40 and dashboard2 retained their
@@ -418,6 +418,22 @@ References: [Kafdrop](https://github.com/obsidiandynamics/kafdrop),
 [Swagger installation](https://github.com/swagger-api/swagger-ui/blob/main/docs/usage/installation.md).
 
 ## Final repository acceptance (2026-10-16)
+
+Fresh whole-branch review covered all22 configurations, provisioning/dashboard,
+environment example, migration guide and acceptance record. No Critical or
+Important issue was found. Two presentation issues remain deferred: the File
+Descriptors time-series panel uses a linear axis instead of the old log10 axis,
+and Thread States/Log Events use default colors instead of explicit alias colors.
+The data and queries remain intact; these affect visual readability and severity
+color cues, not collection or persistence. Check tooltips/legends when reading
+those panels. The review independently confirmed target/variable preservation.
+
+Implementation decisions: used a PowerShell ledger and focused runtime checks
+instead of Bash helper scripts/a YAML test framework; the cost is that rerunning
+the full fixture suite requires PowerShell and the recorded environment. Used
+new version-specific storage where a major upgrade must not open old files;
+the cost is that existing users must explicitly migrate their retained data
+before the modern helpers show it. Old storage was preserved.
 
 All22 final stacks parse on Compose5.6.0;29 active image references resolved to
 local amd64 digests below. Implicit latest references were included. Negative
