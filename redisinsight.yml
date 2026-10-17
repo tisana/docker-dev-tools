@@ -1,9 +1,9 @@
 services:
     redisinsight:
-        image: docker.io/redislabs/redisinsight:1.9.0
+        image: docker.io/redis/redisinsight:3.8.0
         volumes:
-            - redisinsight:/db
+            - redisinsight-v3:/data
         ports:
-            - 8001:8001
+            - "${DEV_BIND_ADDRESS:-127.0.0.1}:${REDISINSIGHT_PORT:-8001}:5540"
 volumes:
-    redisinsight:
+    redisinsight-v3:

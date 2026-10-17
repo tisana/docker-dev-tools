@@ -1,3 +1,13 @@
 /data/*/*
 /logs/*/*
 .DS_Store
+
+.worktrees/
+
+.env
+.env.*
+!.env.example
+.superpowers/
+backups/
+.runtime/
+.playwright-mcp/

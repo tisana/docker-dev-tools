@@ -1,8 +1,8 @@
 services:
   jenkins:
-    image: docker.io/jenkins/jenkins:lts-jdk11
+    image: docker.io/jenkins/jenkins:2.580.1-jdk21
     ports:
-      - 8080:8080
-      - 50000:50000
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${JENKINS_PORT:-8080}:8080"
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${JENKINS_AGENT_PORT:-50000}:50000"
     volumes:
-      - ./data/jenkins:/var/jenkins_home
+      - ${JENKINS_HOME_DIR:-./data/jenkins_lts21}:/var/jenkins_home

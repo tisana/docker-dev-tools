@@ -1,22 +1,28 @@
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.5.5
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
     # volumes:
     #     - ~/data/elasticsearch/:/usr/share/elasticsearch/data/
     ports:
-      - 9200:9200
-      - 9300:9300
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${ELASTICSEARCH_PORT:-9200}:9200"
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${ELASTICSEARCH_TRANSPORT_PORT:-9300}:9300"
     environment:
       - 'ES_JAVA_OPTS=-Xms1024m -Xmx1024m'
       - 'discovery.type=single-node'
+      - 'xpack.security.enabled=false'
     ulimits:
       nproc: 65535
       memlock:
         soft: -1
         hard: -1
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.14.1
+    image: docker.elastic.co/kibana/kibana:9.5.5
     ports:
-      - 5601:5601
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${KIBANA_PORT:-5601}:5601"
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200  
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+
+volumes:
+  elasticsearch-data:

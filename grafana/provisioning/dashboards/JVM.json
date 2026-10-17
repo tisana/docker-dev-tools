@@ -65,21 +65,10 @@
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": true,
-      "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
       "datasource": "Prometheus",
       "decimals": 1,
       "editable": true,
       "error": false,
-      "format": "s",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
       "gridPos": {
         "h": 3,
         "w": 6,
@@ -90,37 +79,8 @@
       "id": 63,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "70%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
       "tableColumn": "",
       "targets": [
         {
@@ -133,36 +93,56 @@
           "step": 14400
         }
       ],
-      "thresholds": "",
       "title": "Uptime",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "result": {
+                  "text": "N/A"
+                },
+                "match": "null"
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s",
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "orientation": "auto",
+        "graphMode": "none",
+        "textMode": "auto",
+        "reduceOptions": {
+          "fields": "",
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "justifyMode": "auto"
+      }
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": true,
-      "colors": ["rgba(245, 54, 54, 0.9)", "rgba(237, 129, 40, 0.89)", "rgba(50, 172, 45, 0.97)"],
       "datasource": "Prometheus",
       "decimals": null,
       "editable": true,
       "error": false,
-      "format": "dateTimeAsIso",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
       "gridPos": {
         "h": 3,
         "w": 6,
@@ -173,37 +153,8 @@
       "id": 92,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "70%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
       "tableColumn": "",
       "targets": [
         {
@@ -216,36 +167,55 @@
           "step": 14400
         }
       ],
-      "thresholds": "",
       "title": "Start time",
-      "type": "singlestat",
-      "valueFontSize": "70%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "result": {
+                  "text": "N/A"
+                },
+                "match": "null"
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "dateTimeAsIso"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "orientation": "auto",
+        "graphMode": "none",
+        "textMode": "auto",
+        "reduceOptions": {
+          "fields": "",
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "justifyMode": "auto"
+      }
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": true,
-      "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
       "datasource": "Prometheus",
       "decimals": 2,
       "editable": true,
       "error": false,
-      "format": "percent",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
       "gridPos": {
         "h": 3,
         "w": 6,
@@ -255,37 +225,8 @@
       "id": 65,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "70%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
       "tableColumn": "",
       "targets": [
         {
@@ -297,36 +238,64 @@
           "step": 14400
         }
       ],
-      "thresholds": "70,90",
       "title": "Heap used",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "result": {
+                  "text": "N/A"
+                },
+                "match": "null"
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 70.0
+              },
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": 90.0
+              }
+            ]
+          },
+          "unit": "percent",
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "orientation": "auto",
+        "graphMode": "none",
+        "textMode": "auto",
+        "reduceOptions": {
+          "fields": "",
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "justifyMode": "auto"
+      }
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": true,
-      "colors": ["rgba(50, 172, 45, 0.97)", "rgba(237, 129, 40, 0.89)", "rgba(245, 54, 54, 0.9)"],
       "datasource": "Prometheus",
       "decimals": 2,
       "editable": true,
       "error": false,
-      "format": "percent",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
       "gridPos": {
         "h": 3,
         "w": 6,
@@ -336,42 +305,8 @@
       "id": 75,
       "interval": null,
       "links": [],
-      "mappingType": 2,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
       "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "70%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        },
-        {
-          "from": "-99999999999999999999999999999999",
-          "text": "N/A",
-          "to": "0"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
       "tableColumn": "",
       "targets": [
         {
@@ -383,23 +318,67 @@
           "step": 14400
         }
       ],
-      "thresholds": "70,90",
       "title": "Non-Heap used",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
+      "type": "stat",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "result": {
+                  "text": "N/A"
+                },
+                "match": "null"
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "to": 0.0,
+                "result": {
+                  "text": "N/A"
+                },
+                "from": -9.999999999999999E+31
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 70.0
+              },
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": 90.0
+              }
+            ]
+          },
+          "unit": "percent",
+          "decimals": 2
         },
-        {
-          "op": "=",
-          "text": "x",
-          "value": ""
-        }
-      ],
-      "valueName": "current"
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "orientation": "auto",
+        "graphMode": "none",
+        "textMode": "auto",
+        "reduceOptions": {
+          "fields": "",
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "justifyMode": "auto"
+      }
     },
     {
       "collapsed": false,
@@ -416,12 +395,7 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
-      "fill": 1,
       "gridPos": {
         "h": 7,
         "w": 8,
@@ -429,28 +403,7 @@
         "y": 8
       },
       "id": 111,
-      "legend": {
-        "avg": false,
-        "current": true,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\"}[1m]))",
@@ -460,58 +413,58 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "decimals": null,
-          "format": "ops",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
+      "type": "timeseries",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "ops",
+          "min": 0.0
         },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
         }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
       }
     },
     {
-      "aliasColors": {
-        "HTTP": "#890f02",
-        "HTTP - 5xx": "#bf1b00"
-      },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
-      "fill": 1,
       "gridPos": {
         "h": 7,
         "w": 8,
@@ -519,28 +472,7 @@
         "y": 8
       },
       "id": 112,
-      "legend": {
-        "avg": false,
-        "current": true,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\", status=~\"5..\"}[1m]))",
@@ -550,55 +482,58 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Errors",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "decimals": null,
-          "format": "ops",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
+      "type": "timeseries",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "ops",
+          "min": 0.0
         },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
         }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
-      "fill": 1,
       "gridPos": {
         "h": 7,
         "w": 8,
@@ -606,28 +541,7 @@
         "y": 8
       },
       "id": 113,
-      "legend": {
-        "avg": false,
-        "current": true,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", instance=\"$instance\", status!~\"5..\"}[1m]))/sum(rate(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\", status!~\"5..\"}[1m]))",
@@ -646,45 +560,54 @@
           "refId": "B"
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Duration",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "s",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
+      "type": "timeseries",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "s",
+          "min": 0.0
         },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
         }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
       }
     },
     {
@@ -702,14 +625,9 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -725,28 +643,7 @@
         "y": 16
       },
       "id": 24,
-      "legend": {
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "sum(jvm_memory_used_bytes{application=\"$application\", instance=\"$instance\", area=\"heap\"})",
@@ -774,60 +671,67 @@
           "step": 2400
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "JVM Heap",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["mbytes", "short"],
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "mbytes",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "bytes",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -843,28 +747,7 @@
         "y": 16
       },
       "id": 25,
-      "legend": {
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "sum(jvm_memory_used_bytes{application=\"$application\", instance=\"$instance\", area=\"nonheap\"})",
@@ -893,60 +776,67 @@
           "step": 2400
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "JVM Non-Heap",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["mbytes", "short"],
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "mbytes",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "bytes",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -962,29 +852,7 @@
         "y": 16
       },
       "id": 26,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "sum(jvm_memory_used_bytes{application=\"$application\", instance=\"$instance\"})",
@@ -1062,49 +930,61 @@
           "step": 2400
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "JVM Total",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["mbytes", "short"],
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "mbytes",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": "",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "bytes",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
@@ -1122,14 +1002,9 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -1145,28 +1020,7 @@
         "y": 24
       },
       "id": 106,
-      "legend": {
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "system_cpu_usage{application=\"$application\", instance=\"$instance\"}",
@@ -1195,61 +1049,68 @@
           "refId": "C"
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "CPU",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["short", "short"],
-      "yaxes": [
-        {
-          "decimals": 1,
-          "format": "percentunit",
-          "label": "",
-          "logBase": 1,
-          "max": "1",
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "short",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": "",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "percentunit",
+          "max": 1.0,
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -1265,28 +1126,7 @@
         "y": 24
       },
       "id": 93,
-      "legend": {
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "system_load_average_1m{application=\"$application\", instance=\"$instance\"}",
@@ -1311,61 +1151,67 @@
           "refId": "C"
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Load",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["short", "short"],
-      "yaxes": [
-        {
-          "decimals": 1,
-          "format": "short",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "short",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": "",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "short",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -1381,28 +1227,7 @@
         "y": 24
       },
       "id": 32,
-      "legend": {
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_threads_live{application=\"$application\", instance=\"$instance\"} or jvm_threads_live_threads{application=\"$application\", instance=\"$instance\"}",
@@ -1440,66 +1265,65 @@
           "step": 2400
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Threads",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["short", "short"],
-      "yaxes": [
-        {
-          "decimals": 0,
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "short",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "short",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {
-        "blocked": "#bf1b00",
-        "new": "#fce2de",
-        "runnable": "#7eb26d",
-        "terminated": "#511749",
-        "timed-waiting": "#c15c17",
-        "waiting": "#eab839"
-      },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
-      "fill": 1,
       "gridPos": {
         "h": 7,
         "w": 6,
@@ -1507,30 +1331,7 @@
         "y": 24
       },
       "id": 124,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_threads_states_threads{application=\"$application\", instance=\"$instance\"}",
@@ -1540,62 +1341,60 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Thread States",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
+      "type": "timeseries",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "short"
         },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
         }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
       }
     },
     {
-      "aliasColors": {
-        "debug": "#1F78C1",
-        "error": "#BF1B00",
-        "info": "#508642",
-        "trace": "#6ED0E0",
-        "warn": "#EAB839"
-      },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -1612,41 +1411,7 @@
       },
       "height": "",
       "id": 91,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": true,
-        "hideEmpty": false,
-        "hideZero": false,
-        "max": true,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": true,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "error",
-          "yaxis": 1
-        },
-        {
-          "alias": "warn",
-          "yaxis": 1
-        }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "increase(logback_events_total{application=\"$application\", instance=\"$instance\"}[1m])",
@@ -1659,61 +1424,67 @@
           "step": 1200
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Log Events (1m)",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["short", "short"],
-      "yaxes": [
-        {
-          "decimals": 0,
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "short",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "short",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -1729,28 +1500,7 @@
         "y": 31
       },
       "id": 61,
-      "legend": {
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "process_open_fds{application=\"$application\", instance=\"$instance\"}",
@@ -1787,50 +1537,61 @@
           "refId": "D"
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "File Descriptors",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["short", "short"],
-      "yaxes": [
-        {
-          "decimals": 0,
-          "format": "short",
-          "label": null,
-          "logBase": 10,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "short",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "short",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
@@ -1848,14 +1609,9 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -1871,27 +1627,8 @@
         "y": 39
       },
       "id": 3,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
       "maxPerRow": 3,
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
       "repeat": "jvm_memory_pool_heap",
       "scopedVars": {
         "jvm_memory_pool_heap": {
@@ -1900,10 +1637,6 @@
           "value": "PS Eden Space"
         }
       },
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_memory_used_bytes{application=\"$application\", instance=\"$instance\", id=\"$jvm_memory_pool_heap\"}",
@@ -1939,60 +1672,67 @@
           "step": 1800
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "$jvm_memory_pool_heap",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["mbytes", "short"],
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "mbytes",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "bytes",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -2008,27 +1748,8 @@
         "y": 39
       },
       "id": 134,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
       "maxPerRow": 3,
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
       "repeat": null,
       "repeatIteration": 1553765841423,
       "repeatPanelId": 3,
@@ -2039,10 +1760,6 @@
           "value": "PS Old Gen"
         }
       },
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_memory_used_bytes{application=\"$application\", instance=\"$instance\", id=\"$jvm_memory_pool_heap\"}",
@@ -2078,60 +1795,67 @@
           "step": 1800
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "$jvm_memory_pool_heap",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["mbytes", "short"],
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "mbytes",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "bytes",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -2147,27 +1871,8 @@
         "y": 39
       },
       "id": 135,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
       "maxPerRow": 3,
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
       "repeat": null,
       "repeatIteration": 1553765841423,
       "repeatPanelId": 3,
@@ -2178,10 +1883,6 @@
           "value": "PS Survivor Space"
         }
       },
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_memory_used_bytes{application=\"$application\", instance=\"$instance\", id=\"$jvm_memory_pool_heap\"}",
@@ -2217,49 +1918,61 @@
           "step": 1800
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "$jvm_memory_pool_heap",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["mbytes", "short"],
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "mbytes",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "bytes",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
@@ -2277,14 +1990,9 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -2300,27 +2008,8 @@
         "y": 47
       },
       "id": 78,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
       "maxPerRow": 3,
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
       "repeat": "jvm_memory_pool_nonheap",
       "scopedVars": {
         "jvm_memory_pool_nonheap": {
@@ -2329,10 +2018,6 @@
           "value": "Metaspace"
         }
       },
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_memory_used_bytes{application=\"$application\", instance=\"$instance\", id=\"$jvm_memory_pool_nonheap\"}",
@@ -2368,60 +2053,67 @@
           "step": 1800
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "$jvm_memory_pool_nonheap",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["mbytes", "short"],
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "mbytes",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "bytes",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -2437,27 +2129,8 @@
         "y": 47
       },
       "id": 136,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
       "maxPerRow": 3,
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
       "repeat": null,
       "repeatIteration": 1553765841423,
       "repeatPanelId": 78,
@@ -2468,10 +2141,6 @@
           "value": "Compressed Class Space"
         }
       },
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_memory_used_bytes{application=\"$application\", instance=\"$instance\", id=\"$jvm_memory_pool_nonheap\"}",
@@ -2507,60 +2176,67 @@
           "step": 1800
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "$jvm_memory_pool_nonheap",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["mbytes", "short"],
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "mbytes",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "bytes",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -2576,27 +2252,8 @@
         "y": 47
       },
       "id": 137,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
       "maxPerRow": 3,
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
       "repeat": null,
       "repeatIteration": 1553765841423,
       "repeatPanelId": 78,
@@ -2607,10 +2264,6 @@
           "value": "Code Cache"
         }
       },
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_memory_used_bytes{application=\"$application\", instance=\"$instance\", id=\"$jvm_memory_pool_nonheap\"}",
@@ -2646,49 +2299,61 @@
           "step": 1800
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "$jvm_memory_pool_nonheap",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["mbytes", "short"],
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "mbytes",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "bytes",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "table"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
@@ -2706,12 +2371,7 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
-      "fill": 1,
       "gridPos": {
         "h": 7,
         "w": 8,
@@ -2719,28 +2379,7 @@
         "y": 55
       },
       "id": 98,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "rate(jvm_gc_pause_seconds_count{application=\"$application\", instance=\"$instance\"}[1m])",
@@ -2751,54 +2390,56 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Collections",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
+      "type": "timeseries",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "ops",
+          "min": 0.0
         },
-        {
-          "format": "short",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "list"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
         }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
-      "fill": 1,
       "gridPos": {
         "h": 7,
         "w": 8,
@@ -2806,28 +2447,7 @@
         "y": 55
       },
       "id": 101,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "rate(jvm_gc_pause_seconds_sum{application=\"$application\", instance=\"$instance\"}[1m])/rate(jvm_gc_pause_seconds_count{application=\"$application\", instance=\"$instance\"}[1m])",
@@ -2848,54 +2468,56 @@
           "refId": "B"
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Pause Durations",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "s",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
+      "type": "timeseries",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "s",
+          "min": 0.0
         },
-        {
-          "format": "short",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "list"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
         }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
-      "fill": 1,
       "gridPos": {
         "h": 7,
         "w": 8,
@@ -2903,28 +2525,7 @@
         "y": 55
       },
       "id": 99,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "rate(jvm_gc_memory_allocated_bytes_total{application=\"$application\", instance=\"$instance\"}[1m])",
@@ -2943,45 +2544,52 @@
           "refId": "B"
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Allocated/Promoted",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
+      "type": "timeseries",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "bytes",
+          "min": 0.0
         },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "list"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
         }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
       }
     },
     {
@@ -2999,14 +2607,9 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -3022,28 +2625,7 @@
         "y": 63
       },
       "id": 37,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_classes_loaded{application=\"$application\", instance=\"$instance\"} or jvm_classes_loaded_classes{application=\"$application\", instance=\"$instance\"}",
@@ -3055,60 +2637,64 @@
           "step": 1200
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Classes loaded",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["short", "short"],
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "short",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "short",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "list"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -3124,28 +2710,7 @@
         "y": 63
       },
       "id": 38,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "delta(jvm_classes_loaded{application=\"$application\",instance=\"$instance\"}[5m]) or delta(jvm_classes_loaded_classes{application=\"$application\",instance=\"$instance\"}[5m])",
@@ -3159,50 +2724,57 @@
           "step": 1200
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Class delta (5m)",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["ops", "short"],
-      "yaxes": [
-        {
-          "decimals": null,
-          "format": "short",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "ops",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": "",
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "list"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
@@ -3220,14 +2792,9 @@
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -3243,28 +2810,7 @@
         "y": 71
       },
       "id": 33,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_buffer_memory_used_bytes{application=\"$application\", instance=\"$instance\", id=\"direct\"}",
@@ -3285,60 +2831,64 @@
           "step": 2400
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Direct Buffers",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["short", "short"],
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "short",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "bytes",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "list"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -3354,28 +2904,7 @@
         "y": 71
       },
       "id": 83,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_buffer_count{application=\"$application\", instance=\"$instance\", id=\"direct\"} or jvm_buffer_count_buffers{application=\"$application\", instance=\"$instance\", id=\"direct\"}",
@@ -3387,61 +2916,64 @@
           "step": 2400
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Direct Buffers",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["short", "short"],
-      "yaxes": [
-        {
-          "decimals": 0,
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "short",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "short",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "list"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -3457,28 +2989,7 @@
         "y": 71
       },
       "id": 85,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_buffer_memory_used_bytes{application=\"$application\", instance=\"$instance\", id=\"mapped\"}",
@@ -3499,60 +3010,64 @@
           "step": 2400
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Mapped Buffers",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["short", "short"],
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "short",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "bytes",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "list"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
-      "fill": 1,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -3568,28 +3083,7 @@
         "y": 71
       },
       "id": 84,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
-      "paceLength": 10,
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "expr": "jvm_buffer_count{application=\"$application\", instance=\"$instance\", id=\"mapped\"} or jvm_buffer_count_buffers{application=\"$application\", instance=\"$instance\", id=\"mapped\"}",
@@ -3601,55 +3095,63 @@
           "step": 2400
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Mapped Buffers",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
+      "type": "timeseries",
       "x-axis": true,
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
       "y-axis": true,
-      "y_formats": ["short", "short"],
-      "yaxes": [
-        {
-          "decimals": 0,
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
+      "y_formats": [
+        "short",
+        "short"
       ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 10.0,
+            "drawStyle": "line",
+            "lineWidth": 1,
+            "showPoints": "never",
+            "axisLabel": null,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "spanNulls": false,
+            "lineInterpolation": "linear",
+            "pointSize": 5
+          },
+          "unit": "short",
+          "min": 0.0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [],
+          "showLegend": true,
+          "placement": "bottom",
+          "displayMode": "list"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       }
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 18,
+  "schemaVersion": 41,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -3768,11 +3270,32 @@
   },
   "timepicker": {
     "now": true,
-    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"],
-    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
   },
   "timezone": "browser",
   "title": "JVM (Micrometer)",
   "uid": "Ud1CFe3iz",
-  "version": 1
+  "version": 2
 }

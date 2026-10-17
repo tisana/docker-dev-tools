@@ -2,10 +2,10 @@ services:
   kafdrop:
     image: docker.io/obsidiandynamics/kafdrop:latest
     ports:
-      - 9000:9000
+      - "${DEV_BIND_ADDRESS:-127.0.0.1}:${KAFDROP_PORT:-9000}:9000"
     environment:
-      JVM_OPTS: -Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify
-      KAFKA_BROKERCONNECT: 52.77.110.196:9092
+      JVM_OPTS: -Xms64M -Xmx256M -Xss512K
+      KAFKA_BROKERCONNECT: ${KAFKA_BROKERCONNECT:?Set a broker reachable from this container}
       # Optional security values can be provided from the host environment.
       # KAFKA_PROPERTIES: ${KAFKA_PROPERTIES:-}
       # KAFKA_TRUSTSTORE: ${KAFKA_TRUSTSTORE:-}
