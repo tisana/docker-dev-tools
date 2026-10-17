@@ -417,7 +417,19 @@ References: [Kafdrop](https://github.com/obsidiandynamics/kafdrop),
 [phpMyAdmin image/session contract](https://github.com/phpmyadmin/docker),
 [Swagger installation](https://github.com/swagger-api/swagger-ui/blob/main/docs/usage/installation.md).
 
-## Final repository acceptance (2026-10-16)
+## Follow-up: remove duplicate MySQL entry point (2026-10-17)
+
+At the user's request, removed `mysql8.yml` and its `MYSQL8_*` port settings.
+The repository now contains 21 active Compose files. `mysql.yml` remains the
+MySQL8.4.11/Adminer6.1.2 entry point with its existing bind-storage and
+case-insensitive initialization policy. README examples now reference that file.
+Old `_mysql8-data` volumes are preserved; logical migration is required before
+their data appears under the retained configuration. The original22-stack
+results below are historical evidence, including the retired helper's tests.
+All 21 remaining files passed Compose parsing, six required-variable negative
+checks, PostgreSQL/MySQL port overrides, and `git diff --check` on2026-10-17.
+
+## Initial repository acceptance (2026-10-16)
 
 Fresh whole-branch review covered all22 configurations, provisioning/dashboard,
 environment example, migration guide and acceptance record. No Critical or

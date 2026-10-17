@@ -100,7 +100,6 @@ through the UI/API as well; an open port or `up -d` alone is insufficient.
 | `metabase.yml` / `dev-metabase` | `METABASE_PORT=3000` | `metabase-data` -> `/metabase-data` |
 | `mongodb.yml` / `dev-mongodb` | `MONGODB_PORT=27017`, `MONGO_EXPRESS_PORT=8081` | `mongodb-v8-data` -> `/data/db` |
 | `monitoring.yml` / `dev-monitoring` | `PROMETHEUS_PORT=9090`, `MONITORING_GRAFANA_PORT=3000` | bind -> `/etc/grafana/provisioning`; `monitoring-grafana-v13-data` -> `/var/lib/grafana`; bind -> `/etc/prometheus`; `prometheus-v3-data` -> `/prometheus` |
-| `mysql8.yml` / `dev-mysql8` | `MYSQL8_PORT=3306`, `MYSQL8_ADMINER_PORT=8080` | `mysql8-data` -> `/var/lib/mysql` |
 | `mysql.yml` / `dev-mysql` | `MYSQL_PORT=3306`, `MYSQL_ADMINER_PORT=8080` | bind -> `/var/lib/mysql` |
 | `nexus.yml` / `dev-nexus` | `NEXUS_PORT=8081` | bind -> `/nexus-data` |
 | `odoo.yml` / `dev-odoo` | `ODOO_PORT=8069` | `odoo-db-v17-data` -> `/var/lib/postgresql/data/pgdata`; `odoo-web-v20-data` -> `/var/lib/odoo`; bind -> `/etc/odoo`; bind -> `/mnt/extra-addons` |
@@ -222,10 +221,16 @@ with confirmation, stop cleanly, then upgrade to 8.0 and set FCV 8.0. Compare
 records and indexes at every step. Preserve the pre-upgrade volume for rollback;
 never run 8.0 directly on 6.0 files or downgrade upgraded files in place.
 
-Both MySQL entry points use 8.4.11 LTS and Adminer 6.1.2. `mysql.yml` keeps its
+`mysql.yml` is the single MySQL entry point, using 8.4.11 LTS and Adminer 6.1.2.
+It keeps its
 case-insensitive initialization policy (`lower_case_table_names=1`) and uses
-`utf8mb4` in the new `./data/mysql84` bind directory. `mysql8.yml` uses the
-`mysql8-data` named volume and the image's normal case policy. This setting
+`utf8mb4` in the new `./data/mysql84` bind directory. The duplicate `mysql8.yml`
+has been removed; use `MYSQL_PORT` and `MYSQL_ADMINER_PORT` for port overrides.
+Existing project volumes ending in `_mysql8-data` are not deleted or
+automatically imported. Export their databases using the old configuration from
+Git history, then restore logically into the retained helper after checking
+table-name collisions under its case-insensitive policy. Do not copy the old
+data directory into `MYSQL_DATA_DIR` to change case policy. That setting
 cannot be changed on an initialized database by editing the startup flag.
 For 5.7 data, rehearse 5.7 -> 8.0 -> 8.4 using the supported upgrade checks or
 logical user-database exports/restores. Export routines/events/triggers too;
@@ -334,7 +339,7 @@ Kafdrop container can reach. The tested Docker Desktop host route used
 required development network. Combined use retains `kafka:29092`.
 
 phpMyAdmin accepts a reachable server on its login screen; combine it with
-`mysql8.yml` under the same project to use server `mysql`, overriding host ports
+`mysql.yml` under the same project to use server `mysql`, overriding host ports
 if needed. Its session files persist in `/sessions`, but the image regenerates
 its cookie secret when recreated, so expect to log in again. HTTP only is
 published. Swagger UI serves the read-only local `swagger/sample.yml` using

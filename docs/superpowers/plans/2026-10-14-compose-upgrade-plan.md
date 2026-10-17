@@ -4,6 +4,11 @@
 
 **Goal:** Make the development helpers reliable across container recreation, modernize obsolete software, and verify floating images against their actual current configuration contracts.
 
+**Follow-up (2026-10-17):** The user requested removal of duplicate `mysql8.yml`.
+`mysql.yml` is now the sole MySQL entry point, leaving 21 active Compose files.
+This supersedes the original instruction to retain both entry points; the
+completed checklist below records the original upgrade and its historical tests.
+
 **Architecture:** Preserve the independent Compose stacks and their service-name networking. Repair storage and connectivity first, upgrade related services together second, and audit current floating images last. Each stack gets an isolated runtime check and a documented recovery path.
 
 **Tech stack:** Compose Specification, Docker Compose, Podman Compose, PowerShell, and the databases/development tools in the 22 root Compose files.
