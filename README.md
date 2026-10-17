@@ -28,6 +28,39 @@ docker compose -p dev-postgres -f postgresql.yml up -d
 podman compose -p dev-postgres -f postgresql.yml up -d
 ```
 
+## Available development tools
+
+Each root-level Compose file provides the listed tool or tools. The detailed
+ports and persistent storage for each stack are in the configuration table
+below.
+
+| Tool(s) | Compose file |
+|---|---|
+| DynamoDB Local | `dynamodb.yml` |
+| Elasticsearch and Kibana | `elasticsearch.yml` |
+| Grafana with PostgreSQL and Redis | `grafana.yml` |
+| Jenkins | `jenkins.yml` |
+| Kafdrop, a Kafka browser | `kafdrop.yml` |
+| Apache Kafka and Schema Registry | `kafka.yml` |
+| Keycloak | `keycloak.yml` |
+| Metabase | `metabase.yml` |
+| MongoDB and mongo-express | `mongodb.yml` |
+| Prometheus and Grafana | `monitoring.yml` |
+| MySQL and Adminer | `mysql.yml` |
+| Sonatype Nexus Repository | `nexus.yml` |
+| Odoo | `odoo.yml` |
+| OpenSearch and OpenSearch Dashboards | `opensearch.yml` |
+| phpMyAdmin | `phpmyadmin.yml` |
+| PostgreSQL | `postgresql.yml` |
+| Redis Insight | `redisinsight.yml` |
+| SonarQube | `sonarqube.yml` |
+| Swagger UI | `swagger.yml` |
+| Apache Tomcat | `tomcat.yml` |
+| WireMock | `wiremock.yml` |
+
+Nested `.yml` files provide configuration or sample API definitions for these
+stacks; they are not standalone Compose stacks.
+
 ## Notes
 
 - Compose files omit the obsolete top-level `version` key and follow the
