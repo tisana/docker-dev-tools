@@ -48,12 +48,18 @@ podman compose -p dev-postgres -f postgresql.yml up -d
 The three-phase upgrade is implemented and verified on Docker Compose. See [the validation record](docs/compose-upgrade-validation.md)
 for actual checks; a parsed configuration is not evidence of application readiness.
 
-Standalone PostgreSQL 16 now stores data in its named volume at
-`/var/lib/postgresql/data`. Before using an existing installation, inspect its
-container mounts: the previous parent mount may have left real records in an
-anonymous child volume. Stop writers, take `pg_dump -Fc`, restore into isolated
-PostgreSQL 16 storage, compare records, then restore the retained data into the
-corrected volume. Do not delete the source volume until recovery is verified.
+Standalone PostgreSQL now uses 18.6 with `postgresql-v18-data` mounted at
+`/var/lib/postgresql`; the image stores its cluster in `18/docker` beneath it.
+The old `<project>_postgresql` PostgreSQL 16 volume is preserved. Before switching
+an existing installation, stop application writers and export each database
+with `pg_dump -Fc` using the old configuration from Git history. Export required
+roles/grants separately, review extension compatibility, then restore into a
+separate PostgreSQL 18 project using `pg_restore`. Compare records and indexes
+before switching clients. Do not attach PostgreSQL 16 files directly to 18 or
+rename the old volume to bypass migration. For very old layouts, inspect mounts
+for anonymous child volumes that may contain the actual records. Rollback uses
+the old image/configuration and its matching pre-upgrade data; keep the source
+and backups until recovery is verified.
 SonarQube uses the `sonar` database through `SONAR_JDBC_URL`, waits for PostgreSQL
 readiness, and stores PostgreSQL 18 data in `sonarqube_postgresql` at
 `/var/lib/postgresql`. Existing H2 databases must be preserved; switching JDBC
@@ -105,7 +111,7 @@ through the UI/API as well; an open port or `up -d` alone is insufficient.
 | `odoo.yml` / `dev-odoo` | `ODOO_PORT=8069` | `odoo-db-v17-data` -> `/var/lib/postgresql/data/pgdata`; `odoo-web-v20-data` -> `/var/lib/odoo`; bind -> `/etc/odoo`; bind -> `/mnt/extra-addons` |
 | `opensearch.yml` / `dev-opensearch` | `OPENSEARCH_PORT=9200`, `OPENSEARCH_ANALYZER_PORT=9600`, `OPENSEARCH_DASHBOARDS_PORT=5601` | `opensearch-data1` -> `/usr/share/opensearch/data`; `opensearch-data2` -> `/usr/share/opensearch/data` |
 | `phpmyadmin.yml` / `dev-phpmyadmin` | `PHPMYADMIN_PORT=80` | `phpmyadmin_session` -> `/sessions` |
-| `postgresql.yml` / `dev-postgresql` | `POSTGRES_PORT=5432` | `postgresql` -> `/var/lib/postgresql/data` |
+| `postgresql.yml` / `dev-postgresql` | `POSTGRES_PORT=5432` | `postgresql-v18-data` -> `/var/lib/postgresql` |
 | `redisinsight.yml` / `dev-redisinsight` | `REDISINSIGHT_PORT=8001` | `redisinsight-v3` -> `/data` |
 | `sonarqube.yml` / `dev-sonarqube` | `SONARQUBE_PORT=9001` | `sonarqube_postgresql` -> `/var/lib/postgresql`; `sonarqube_data` -> `/opt/sonarqube/data`; `sonarqube_extensions` -> `/opt/sonarqube/extensions`; `sonarqube_logs` -> `/opt/sonarqube/logs` |
 | `swagger.yml` / `dev-swagger` | `SWAGGER_PORT=8001` | bind -> `/usr/share/nginx/html/swagger` |
@@ -287,7 +293,7 @@ the required upstream setting. No original custom extensions were present.
 ## Search helpers
 
 Elasticsearch/Kibana use9.5.5; OpenSearch/Dashboards use3.9.0. Standalone
-PostgreSQL remains on16.15. Inspect the actual search data version before
+PostgreSQL uses 18.6 with separate storage for the major upgrade. Inspect the actual search data version before
 upgrading a populated installation; follow supported intermediate upgrades or
 snapshot/reindex procedures on copies. New tags do not migrate old files.
 OpenSearch requires a strong `OPENSEARCH_INITIAL_ADMIN_PASSWORD`, adequate VM

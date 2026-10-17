@@ -417,6 +417,34 @@ References: [Kafdrop](https://github.com/obsidiandynamics/kafdrop),
 [phpMyAdmin image/session contract](https://github.com/phpmyadmin/docker),
 [Swagger installation](https://github.com/swagger-api/swagger-ui/blob/main/docs/usage/installation.md).
 
+## Follow-up: standalone PostgreSQL18 (2026-10-17)
+
+At the user's request, `postgresql.yml` now pins `postgres:18.6` and mounts
+`postgresql-v18-data` at `/var/lib/postgresql`. The old `postgresql` volume is
+not reused or deleted. The previous major16 requirement in the plan is superseded.
+
+PASS on Docker linux/amd64: the pre-change image assertion failed on16.15;
+the updated configuration resolves18.6, separate storage and the parent mount.
+Created an isolated16.15 fixture with a recognizable row, primary key and note
+index; exported using `pg_dump -Fc`, copied the binary archive with `docker cp`,
+and stopped the source. Restored into a fresh18.6 project using
+`pg_restore --no-owner --no-acl --exit-on-error`, wrote a second row, then ran
+`down`/`up --wait`. Both rows and indexes remained. SQL reported180006 and
+`/var/lib/postgresql/18/docker`. The project used host25433 and was stopped
+afterward; no existing user database was opened or migrated by this check.
+All21 configurations, six required-setting negative checks, port overrides and
+`git diff --check` passed after the change.
+
+Pulled18.6 digest `sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336`
+(amd64); source16.15 digest
+`sha256:ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d`.
+The October16 inventory below is historical; the current standalone reference
+is `docker.io/library/postgres:18.6` instead of16.15. Existing users must perform
+their own logical migration, including required roles, grants and extensions.
+Rollback requires the old image and its matching pre-upgrade storage.
+Reference checked2026-10-17:
+[official PostgreSQL image storage rules](https://github.com/docker-library/docs/blob/master/postgres/README.md#pgdata).
+
 ## Follow-up: remove duplicate MySQL entry point (2026-10-17)
 
 At the user's request, removed `mysql8.yml` and its `MYSQL8_*` port settings.

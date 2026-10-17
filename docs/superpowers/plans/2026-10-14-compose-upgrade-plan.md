@@ -9,6 +9,11 @@
 This supersedes the original instruction to retain both entry points; the
 completed checklist below records the original upgrade and its historical tests.
 
+**Follow-up (2026-10-17):** The user requested standalone PostgreSQL18.
+`postgresql.yml` now targets18.6 using separate `postgresql-v18-data` storage
+mounted at `/var/lib/postgresql`. This supersedes Task2.6's original requirement
+to retain major16; the original16 tests below remain historical evidence.
+
 **Architecture:** Preserve the independent Compose stacks and their service-name networking. Repair storage and connectivity first, upgrade related services together second, and audit current floating images last. Each stack gets an isolated runtime check and a documented recovery path.
 
 **Tech stack:** Compose Specification, Docker Compose, Podman Compose, PowerShell, and the databases/development tools in the 22 root Compose files.
